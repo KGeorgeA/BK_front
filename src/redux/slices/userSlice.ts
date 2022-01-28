@@ -10,7 +10,11 @@ export interface UserState {
     surname: string;
     email: string;
     password: string;
-  };
+  },
+  loggedIn: {
+    isLoggedIn: boolean;
+    token: string;
+  }
 }
 
 const initialState: UserState = {
@@ -20,6 +24,10 @@ const initialState: UserState = {
     email: "",
     password: "",
   },
+  loggedIn: {
+    isLoggedIn: false,
+    token: ""
+  }
 };
 
 export const userSlice = createSlice({
@@ -27,11 +35,17 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.data = action.payload;
+      // Надо исправить это
+      state.data = action.payload.data;
+      state.loggedIn = action.payload.loggedIn;
     },
     registration: (state, action) => {
-      state.data = action.payload;
+      // Надо исправить это
+      state.data = action.payload.data;
     },
+    logout: (state) => {
+      state.loggedIn.isLoggedIn = false;
+    }
   },
 });
 
