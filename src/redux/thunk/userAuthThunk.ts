@@ -8,16 +8,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const loginThunk = createAsyncThunk<object, object>(
   "userAuth/login",
   async (data, thunkAPI) => {
-    // const initial = {data};
     try {
-      const response = await instance.post("/api/login", { data });
-      console.log(response);
+      const response = await instance.post("/api/login", {data});
+      console.log("loginThunk res", response);
+
       if (response.status === 200) {
-        return { data, loggedIn: { isLoggedIn: true, token: "" } };
+        return { data, loggedIn: response.data.loggedIn };
       }
-      return thunkAPI.rejectWithValue(data);
+      return thunkAPI.rejectWithValue({ data });
     } catch (error) {
-      console.error(error);
+      console.error("loginThunk err", error);
     }
   }
 );

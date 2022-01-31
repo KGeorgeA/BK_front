@@ -14,6 +14,7 @@ export interface UserState {
     token: string;
   };
   loading: boolean;
+  errorMessage: string;
 }
 
 const initialState: UserState = {
@@ -26,6 +27,7 @@ const initialState: UserState = {
     token: "",
   },
   loading: false,
+  errorMessage: '',
 };
 
 export const userAuthSlice = createSlice({
@@ -44,26 +46,25 @@ export const userAuthSlice = createSlice({
       state = initialState;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(login.fulfilled, (state, action) => {
-  //     state.data = action.payload.data;
-  //     state.loggedIn.isLoggedIn = true;
-  //   })
-  // }
   extraReducers: {
-    [`${loginThunk.fulfilled}`]: (state, { payload }) => {
-      state.data = payload?.data;
-      state.loggedIn.isLoggedIn = true;
+    [`${loginThunk.fulfilled}`]: (state, {payload}) => {
+      console.log("fulfilled",payload);
+      
+      state.data = payload.data || initialState.data;
+      state.loggedIn.isLoggedIn = payload.loggedIn.isLoggedIn || false;
+      state.loggedIn.token = payload.loggedIn.token || "";
       state.loading = false;
     },
     [`${loginThunk.pending}`]: (state) => {
       state.loading = true;
     },
     [`${loginThunk.rejected}`]: (state, { payload }) => {
+      console.log("rejected",{payload});
+      
       // state.isFetching = false;
       // state.isError = true;
-      // state.errorMessage = payload.message;
-      console.log("refected", state, payload);
+      state.errorMessage = payload.message;
+      state.loading = false;
     },
   },
 });
