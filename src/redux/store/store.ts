@@ -1,16 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // import userReducer, {userSlice} from "../reducers/userSlice";
-import { userSlice } from "../slices/userSlice";
+import userAuthSlice from "../features/User/userSlice";
 
 // Не готово от слова совсем
 // доделать/переделать
 
-export default configureStore({
+const store = configureStore({
   reducer: {
-
-  },
+    userAuth: userAuthSlice,
+  },  
 });
 
-// export type RootStore = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
+export type RootStore = ReturnType<typeof store.getState>;
+
+export default store

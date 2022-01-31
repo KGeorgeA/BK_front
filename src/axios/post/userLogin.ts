@@ -1,6 +1,5 @@
 import instance from "../axiosInstance";
 
-// instance.interceptors.request.use((req) => console.log('hi from postUser'), (err) => console.log('smthng went wrong in postUser', err));
 export type UserLoginData = {
   email: string;
   password: string;
@@ -11,14 +10,19 @@ export type UserLoginData = {
   isLoaded?: boolean;
 };
 
-export const userLogin = async (data: UserLoginData) =>
-  await instance.post("/login", { data });
+export const userLogin = async (data: UserLoginData) => {
+  try {
+    await instance.post("/api/login", { data });
 
-instance.interceptors.response.use(
-  (res) => {
-    console.log(res.data);
-  },
-  (err) => {
-    console.log(err);
+    // instance.interceptors.response.use(
+    //   (res) => {
+    //     console.log("RESPONSE userLogin interceptors response", res);
+    //   },
+    //   (err) => {
+    //     console.log("ERROR userLogin interceptors response", err);
+    //   }
+    // );
+  } catch (error) {
+    console.error(error);
   }
-);
+};

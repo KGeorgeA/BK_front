@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { userLogin } from "../../axios/post/userLogin";
+// import { userLogin } from "../../axios/post/userLogin";
+import { useDispatch } from "react-redux";
+import { loginThunk } from "../../redux/thunk/userAuthThunk";
+
 
 // material UI
 function Login() {
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -10,7 +14,8 @@ function Login() {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
-    userLogin(data);
+    // userLogin(data);
+    dispatch(loginThunk(data))
   };
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (ev) => {

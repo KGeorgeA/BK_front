@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import {} from 'styled-components/cssprop'
+// import {} from 'styled-components/cssprop';
 
 import Main from "../Main/Main";
 import Login from "../Login/Login";

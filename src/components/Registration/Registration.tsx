@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userRegistration } from "../../axios/post/userRegistration";
+// import { userRegistration } from "../../axios/post/userRegistration";
 
 // material UI
 //
@@ -15,7 +15,7 @@ function Registration() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
 
-    userRegistration(data);
+    // userRegistration(data);
   };
 
   const handleOnInputChange: React.ChangeEventHandler<HTMLInputElement> = (
