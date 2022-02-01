@@ -1,5 +1,7 @@
 import styled from "styled-components";
+// import styled from "@mui/smthng";
 
 export const SidebarS = styled.aside`
-  background-color: wheat;
+  max-width: 256px;
+  width: 100%;
 `;

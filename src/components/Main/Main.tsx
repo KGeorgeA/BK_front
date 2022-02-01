@@ -1,4 +1,5 @@
 import React from "react";
+import BookList from "../BookList/BookList";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -10,7 +11,7 @@ function Main() {
       <Header />
       <MainContainer className="main-container">
         <Sidebar />
-        <main>Main Info</main>
+        <BookList />
       </MainContainer>
       <Footer />
     </>

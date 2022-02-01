@@ -5,7 +5,7 @@ export const MainContainer = styled.div`
 
   max-width: 1120px;
   width: 100%;
-  margin: 0 auto;
-
+  margin: 10px auto;
+  padding: 0 15px;
   display: flex;
 `;
