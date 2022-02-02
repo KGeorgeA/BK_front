@@ -22,7 +22,7 @@ function Header() {
             <SearchIcon fontSize="large" />
           </div>
           <div className="header__menu">
-            <Link to="/login">
+            <Link to="/auth">
               <AccountCircleIcon color="primary" fontSize="large" />
             </Link>
             <Link to="/">
