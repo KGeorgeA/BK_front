@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { loginThunk } from "../../thunk/userAuthThunk";
 
 // Не готово от слова совсем
 // доделать/переделать
@@ -13,8 +12,12 @@ export interface UserState {
     isLoggedIn: boolean;
     token: string;
   };
-  loading: boolean;
-  errorMessage: string;
+  // loading: boolean;
+  message: {
+    type: string,
+    value: string,
+    // ещё что?
+  }
 }
 
 const initialState: UserState = {
@@ -26,25 +29,40 @@ const initialState: UserState = {
     isLoggedIn: false,
     token: "",
   },
-  loading: false,
-  errorMessage: "",
+  // loading: false,
+  message: {
+    type: "",
+    value: "",
+  }
 };
+
+// const tokenInitialState: UserState = {}
 
 export const userAuthSlice = createSlice({
   name: "userAuth",
   initialState,
   reducers: {
-    // login: (state, action) => {
-    //   // Надо исправить это
-    //   state.data = action.payload.data;
-    //   state.loggedIn = action.payload.loggedIn;
-    // },
-    // registration: (state, action) => {
-    //   // Надо исправить это
-    // },
-    logout: (state) => {
-      state = initialState;
+    signin: (state, {payload}) => {
+      localStorage.setItem('token', payload.loggedIn.token);
+      
+      state.data = payload.data;
+      state.loggedIn = payload.loggedIn;
+      state.message = payload.message
     },
+    signup: (state, { payload }) => {
+      state = initialState;
+      state.message = payload.message;
+    },
+    signout: (state) => {
+      state = initialState;
+      state.message = {type: "", value: ""}
+    },
+    validationError: (state, {payload}) => {
+      state.message = payload.message;
+    },
+    // signinTokenCheck: (state) => {
+
+    // }
   },
   // extraReducers: {
   //   [`${loginThunk.pending}`]: (state) => {
@@ -79,6 +97,6 @@ export const userAuthSlice = createSlice({
   // },
 });
 
-// export const { login, registration, logout } = userAuthSlice.actions;
-export const {  logout } = userAuthSlice.actions;
+
+export const { signin, signup, signout, validationError } = userAuthSlice.actions;
 export default userAuthSlice.reducer;

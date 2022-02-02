@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // import userReducer, {userSlice} from "../reducers/userSlice";
-import userAuthSlice from "../features/User/userSlice";
+import userAuthSlice from "../features/user/userSlice";
 
 // Не готово от слова совсем
 // доделать/переделать
@@ -9,9 +9,8 @@ import userAuthSlice from "../features/User/userSlice";
 const store = configureStore({
   reducer: {
     userAuth: userAuthSlice,
-  },  
+  },
 });
 
 export type RootStore = ReturnType<typeof store.getState>;
-
-export default store
+export default store;
