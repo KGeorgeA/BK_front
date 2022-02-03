@@ -8,6 +8,9 @@ const BookList = () => {
       <BookItem />
       <BookItem />
       <BookItem />
+      <BookItem />
+      <BookItem />
+      <BookItem />
     </BookListDiv>
   );
 };

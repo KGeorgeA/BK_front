@@ -1,69 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { NavList } from "./NavList";
 
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { HeaderS } from "./Header.styles";
 import { HeaderContainer } from "./HeaderContainer.styles";
-import { HeaderMenu } from "./HeaderMenu.styles";
-import { HeaderNav } from "./HeaderNav.styles";
-import { NavItem } from "./NavItem.styles";
+import { HeaderMain } from "./HeaderMain.styles";
+import { HeaderLogo } from "./HeaderLogo.styles";
 
 function Header() {
   return (
     <HeaderS className="header">
       <HeaderContainer className="header-container ">
-        <HeaderMenu className="header__menu">
-          <div className="header__logo">
-            Logo
-            <SearchIcon fontSize="large" />
-          </div>
+        <HeaderMain className="header__main">
+          <HeaderLogo className="header__logo">
+            <p className="header__text">Bookstore</p>
+          </HeaderLogo>
           <div className="header__menu">
             <Link to="/auth">
-              <AccountCircleIcon color="primary" fontSize="large" />
+              <AccountCircleIcon sx={{ color: "black" }} fontSize="large" />
             </Link>
             <Link to="/">
-              <ShoppingCartIcon color="primary" fontSize="large" ></ShoppingCartIcon>
+              <ShoppingCartIcon
+                color="primary"
+                fontSize="large"
+                sx={{ color: "black" }}
+              ></ShoppingCartIcon>
             </Link>
           </div>
-        </HeaderMenu>
-        {/* <HeaderNav className="header__nav nav">
-          <NavList className="nav__list">
-            <NavItem className="nav__item">
-              <Link className="nav__link" to="/">
-                Акции
-              </Link>
-            </NavItem>
-            <NavItem className="nav__item">
-              <Link className="nav__link" to="/">
-                Скидки!
-              </Link>
-            </NavItem>
-            <NavItem className="nav__item">
-              <Link className="nav__link" to="/">
-                Подборки
-              </Link>
-            </NavItem>
-            <NavItem className="nav__item">
-              <Link className="nav__link" to="/">
-                Подарочный Сертификат
-              </Link>
-            </NavItem>
-            <NavItem className="nav__item">
-              <Link className="nav__link" to="/">
-                Книжный абонемент
-              </Link>
-            </NavItem>
-            <NavItem className="nav__item">
-              <Link className="nav__link" to="/">
-                Корпоративные продажи
-              </Link>
-            </NavItem>
-          </NavList>
-        </HeaderNav> */}
+        </HeaderMain>
       </HeaderContainer>
     </HeaderS>
   );
