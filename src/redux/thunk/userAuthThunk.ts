@@ -1,11 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  tokenCheck,
   userSignin,
   UserSigninData,
   userSignup,
   UserSignupData,
+  UserToken,
 } from "../../api/user.api";
-import { signin, signup, validationError } from "../features/user/userSlice";
+import {
+  signin,
+  signup,
+  validationError,
+  tokencheck,
+} from "../features/user/userSlice";
 // import { UserState } from "../features/userSlice";
 
 // добавить типизацию
@@ -46,23 +53,23 @@ export const signupThunk = createAsyncThunk<void, UserSignupData>(
       }
       // console.log("signupThunk response", res);
     } catch (error: any) {
-      console.log("signupThunk error", error);
+      console.log("signupThunk error", error.response.message);
     }
   }
 );
 
-export const signoutThunk = createAsyncThunk("userAuth/signout", async () => {
-  try {
-    console.log("signoutThunk");
-  } catch (error: any) {
-    console.log("signoutThunk", error);
-  }
-});
+export const tokenAccessCheckThunk = createAsyncThunk<void, UserToken>(
+  "userAuth/tokenCheck",
+  async (data, { dispatch }) => {
+    try {
+      console.log('123');
+      
+      const res = await tokenCheck(data);
+      console.log("token check", res);
 
-// export const signinTokenCheckThunk = createAsyncThunk('userAuth/tokenCheck', async (data, {dispatch}) => {
-//   try {
-//     const res = await 
-//   } catch (error) {
-    
-//   }
-// })
+      dispatch(tokencheck(res.data));
+    } catch (error: any) {
+      console.log("tokenAccessCheck error", error.response.message);
+    }
+  }
+);

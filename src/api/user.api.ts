@@ -12,6 +12,8 @@ export type UserSignupData = {
   password: string;
 };
 
+export type UserToken = string | null;
+
 export const userSignin = async (data: UserSigninData) => {
   // console.log("api signin data", data);
   const response = await api.post("/api/signin", { data });
@@ -29,7 +31,10 @@ export const userSignup = async (data: UserSignupData) => {
   return response;
 };
 
-// export const userTokenCheck = async (data: any) => {
-//   const response = await api.post("/api/tokenCheck", { data });
-//   return response;
-// };
+export const tokenCheck = async (data: UserToken) => {
+  console.log('345 tokencheck user request', data);
+  const response = await api.get("/api/tokenCheck", {data});
+  console.log('345 tokencheck user response', response);
+
+  return response;
+};
