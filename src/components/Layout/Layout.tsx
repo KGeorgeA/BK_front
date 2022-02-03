@@ -1,19 +1,18 @@
 import React from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import Auth from "../Auth/Auth";
+import { Outlet } from "react-router-dom";
 
-type Props = {
-  children: React.ReactNode
-}
-const Layout: React.FunctionComponent<Props> = (props:Props) => {
+const Layout: React.FunctionComponent = () => {
   return (
     <>
       <Header />
-      {props.children}
+      <div className="container">
+        <Outlet />
+      </div>
       <Footer />
     </>
   );
-}
+};
 
 export default Layout;

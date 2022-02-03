@@ -16,33 +16,34 @@ function Auth() {
     password: "",
   });
   const [authUi, setAuthUi] = useState(true);
+  const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // const fromPage = location.state?.from?.pathname || '/';
-
+  // const fromPage = location.state?.from?.pathname || '/'; // ???
   // useEffect(() => {
-  //   navigate("/", { state: data });
-  // }, [store.getState().userAuth.message.type]);
+  //   setValidationErrorMessage(store.getState().userAuth.message.value);
+  //   console.log(validationErrorMessage);
+  // }, []);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
-    console.log(location);
-    
 
     if (authUi) {
-      if (localStorage.getItem("token") && store.getState().userAuth.loggedIn.isLoggedIn) {
+      if (
+        localStorage.getItem("token") &&
+        store.getState().userAuth.loggedIn.isLoggedIn
+      ) {
         console.log("U are already loged in");
+        navigate("/");
       } else {
-        console.log("signin logic");
-
+        // console.log("signin logic");
         dispatch(signinThunk({ email: data.email, password: data.password }));
       }
     } else {
-      // dispatch(signupThunk(data));
-      setAuthUi(true);
-      // navigate('/auth')
+      dispatch(signupThunk(data));
+      // setAuthUi(true);
     }
   };
 
@@ -61,7 +62,7 @@ function Auth() {
       className="wrapper"
       sx={{
         width: "100%",
-        height: "100vh",
+        // height: "100vh",
         display: "flex",
         alignItems: "center",
       }}
@@ -97,6 +98,11 @@ function Auth() {
                 autoComplete="off"
                 autoFocus
                 onChange={handleInputChange}
+                // helperText={
+                //   store.getState().userAuth.message.type === "error"
+                //     ? store.getState().userAuth.message.value
+                //     : ""
+                // }
               />
               <TextField
                 className="form__input"

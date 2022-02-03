@@ -1,19 +1,20 @@
 import React from "react";
+
+import MainHeader from "../MainHeader/MainHeader";
 import BookList from "../BookList/BookList";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import { MainContainer } from "./MainContainer.styles";
 
 function Main() {
   return (
     <>
-      <Header />
-      <MainContainer className="main-container">
+      <div className="container">
+        <MainHeader />
+      </div>
+      <MainContainer className="main-container container">
         <Sidebar />
         <BookList />
       </MainContainer>
-      <Footer />
     </>
   );
 }

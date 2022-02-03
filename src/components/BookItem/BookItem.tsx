@@ -4,30 +4,34 @@ import Button from "@mui/material/Button";
 
 import BookItemDiv from "./BookItem.styles";
 import { BookImg, BookImgDiv } from "./BookImg.styles";
+import { Link } from "react-router-dom";
 
 const BookItem = () => {
   const bookname = "Дюна";
   const author = "Фрэнк Герберт";
   const price = 250;
-  const path = "https://cs6.pikabu.ru/post_img/big/2017/09/28/10/1506614741122236788.jpg";
+  const path =
+    "https://cs6.pikabu.ru/post_img/big/2017/09/28/10/1506614741122236788.jpg";
   return (
-    <BookItemDiv>
+    <BookItemDiv className="book">
       <BookImgDiv>
         <BookImg src={path} alt={bookname} />
       </BookImgDiv>
       {/* Сделать ашки Linkами */}
-      <div>
-        <a href="#" className="author-link">
+      <div className="book__link-container link-container">
+        <Link to="/" className="book__author-link link">
           {author}
-        </a>
+        </Link>
       </div>
-      <div>
-        <a href="#" className="title-link">
+      <div className="book__link-container link-container">
+        <Link to="/" className="book__title-link link">
           {bookname}
-        </a>
+        </Link>
       </div>
-      <div>{price} Р</div>
-      <Button>Добавить</Button>
+      <div className="book__price">{price} Р</div>
+      <Button sx={{ color: "white", backgroundColor: "#46c3d2" }}>
+        Добавить
+      </Button>
     </BookItemDiv>
   );
 };
