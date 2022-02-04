@@ -1,15 +1,15 @@
 import React from "react";
 import {  Navigate } from "react-router-dom";
+import store from "../../redux/store";
 
 export type PrivateRouteProps = {
   isAuthenticated: boolean;
   authenticationPath: string;
-  userId: string;
   outlet: JSX.Element;
 };
 
 function PrivateRoute({isAuthenticated, authenticationPath, outlet}: PrivateRouteProps) {
-  if(isAuthenticated) {
+  if(store.getState().userAuth.isSignIn && Boolean(localStorage.getItem('token'))) {
     return outlet;
   } else {
     return <Navigate to={{pathname: authenticationPath}}/>

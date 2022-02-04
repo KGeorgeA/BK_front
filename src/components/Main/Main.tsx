@@ -8,9 +8,9 @@ import { MainContainer } from "./MainContainer.styles";
 function Main() {
   return (
     <>
-      <div className="container">
+      {/* <div className="container">
         <MainHeader />
-      </div>
+      </div> */}
       <MainContainer className="main-container container">
         <Sidebar />
         <BookList />

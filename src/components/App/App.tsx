@@ -1,31 +1,31 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import store from "../../redux/store/store";
 
-import PrivateRoute from "../hoc/PrivateRoute";
-import { PrivateRouteProps } from "../hoc/PrivateRoute";
+import PrivateRoute, { PrivateRouteProps } from "../hoc/PrivateRoute";
 import Layout from "../Layout/Layout";
 import Main from "../Main/Main";
 import Auth from "../Auth/Auth";
-import UserProfile from "../Users/UserProfile";
 import NotFound from "../NotFound/NotFound";
-import UserCart from "../Users/UserCart";
 import UserPage from "../Users/UserPage";
+import UserProfile from "../Users/UserProfile";
+import UserCart from "../Users/UserCart";
+
 import { useDispatch } from "react-redux";
-import { tokenAccessCheckThunk } from "../../redux/thunk/userAuthThunk";
-
-function App() {
+import { useAppSelector } from "../../utils/hooks/reduxHooks";
+import { tokenAuthThunk } from "../../redux/user/userAuthThunk";
+// 47 СТРОКА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const App: React.FC = () =>  {
   const dispatch = useDispatch();
-
-  const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
-    isAuthenticated: true,//store.getState().userAuth.loggedIn.isLoggedIn,
-    authenticationPath: "/auth",
-    userId: store.getState().userAuth.data.id || "123",
-  };
+  const { isSignIn } = useAppSelector((state) => state.userAuth);
 
   useEffect(() => {
-    dispatch(tokenAccessCheckThunk(localStorage.getItem('token')));
-  });
+      dispatch(tokenAuthThunk(localStorage.getItem("token")));
+    }, [isSignIn]);
+
+  const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
+    isAuthenticated: isSignIn,
+    authenticationPath: "/auth",
+  };
 
   return (
     <Routes>
@@ -35,11 +35,31 @@ function App() {
         <Route
           path="userpage"
           element={
-            <PrivateRoute {...defaultPrivateRouteProps} outlet={<UserPage />} />
+            <PrivateRoute
+              {...defaultPrivateRouteProps}
+              outlet={<UserPage />}
+            />
           }
         >
-          <Route path=":id" element={<UserProfile />} />
-          <Route path=":id/cart" element={<UserCart />} />
+          <Route
+            path="profile"
+            element={
+              // вложенный приватный роут не работает
+              <PrivateRoute
+                {...defaultPrivateRouteProps}
+                outlet={<UserProfile />}
+              />
+            }
+          />
+          <Route
+            path="cart"
+            element={
+              <PrivateRoute
+                {...defaultPrivateRouteProps}
+                outlet={<UserCart />}
+              />
+            }
+          />
         </Route>
       </Route>
       <Route path="*" element={<Layout />}>

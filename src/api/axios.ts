@@ -19,8 +19,6 @@ api.interceptors.request.use(async (url: any) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // const isErrorStatus = error.response?.status === 400; // обработка должна быть здесь, но я дебил
-    // диспатчить валидационную ошибку)))
     return error.response
   }
 );

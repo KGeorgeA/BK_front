@@ -20,4 +20,14 @@ export const GlobalStyles = createGlobalStyle`
     margin: 10px auto;
     padding: 0 15px;
   }
+  .container-big {
+    box-sizing: border-box;
+  
+    max-width: 1240px;
+    width: 100%;
+    height: 60px;
+    margin: 0 auto;
+  
+    padding: 0 20px;
+  }
 `;

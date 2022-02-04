@@ -1,9 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../utils/hooks/reduxHooks";
+
 
 function UserProfile() {
-  let { id } = useParams();
-  return <div>Profile {id}</div>;
+  const {name, surname, email, phoneNumber, dob} = useAppSelector(state => state.userAuth.user) // add phonenumber to the store
+  
+  return <div>Profile {name}</div>;
 }
 
 export default UserProfile;

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signinThunk, signupThunk } from "../../redux/thunk/userAuthThunk";
-import { useNavigate, useLocation } from "react-router-dom";
-import store from "../../redux/store/store";
+import { signinThunk, signupThunk } from "../../redux/user/userAuthThunk";
+import { useNavigate } from "react-router-dom";
 
 import { Button, Grid, TextField, Link } from "@mui/material";
 import { Box } from "@mui/system";
@@ -15,11 +14,11 @@ function Auth() {
     phoneNumber: "",
     password: "",
   });
-  const [authUi, setAuthUi] = useState(true);
-  const [validationErrorMessage, setValidationErrorMessage] = useState("");
+  const [authUi, setAuthUi] = useState({isLogin: true});
+  // const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   // const fromPage = location.state?.from?.pathname || '/'; // ???
   // useEffect(() => {
@@ -30,20 +29,12 @@ function Auth() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
 
-    if (authUi) {
-      if (
-        localStorage.getItem("token") &&
-        store.getState().userAuth.loggedIn.isLoggedIn
-      ) {
-        console.log("U are already loged in");
-        navigate("/");
-      } else {
-        // console.log("signin logic");
-        dispatch(signinThunk({ email: data.email, password: data.password }));
-      }
+    if (authUi.isLogin) {
+      dispatch(signinThunk({ email: data.email, password: data.password }));
+      navigate("/");
     } else {
       dispatch(signupThunk(data));
-      // setAuthUi(true);
+      navigate("/");
     }
   };
 
@@ -54,7 +45,7 @@ function Auth() {
   };
 
   const handleAuthType: React.MouseEventHandler<HTMLAnchorElement> = () => {
-    setAuthUi(!authUi);
+    setAuthUi({isLogin: !authUi.isLogin});
   };
 
   return (
@@ -70,7 +61,7 @@ function Auth() {
       <Box sx={{ width: "100%" }}>
         <AuthHeader className="login__header">
           <AuthDiv>Bookstore Name</AuthDiv>
-          <AuthDiv>{authUi ? "Вход" : "Регистрация"}</AuthDiv>
+          <AuthDiv>{authUi.isLogin ? "Вход" : "Регистрация"}</AuthDiv>
           <AuthDiv>НАПОМИНАНИЕ! Шрифт ни о чём</AuthDiv>
         </AuthHeader>
         <Box
@@ -85,12 +76,11 @@ function Auth() {
           }}
           onSubmit={handleSubmit}
         >
-          {!authUi && (
+          {!authUi.isLogin && (
             <>
               <TextField
                 className="form__input"
                 margin="normal"
-                required
                 fullWidth
                 id="name"
                 label="Ваше Имя"
@@ -98,16 +88,18 @@ function Auth() {
                 autoComplete="off"
                 autoFocus
                 onChange={handleInputChange}
+                // error={
+                //   validationErrorMessage.elementId === "name" ? true : false
+                // }
                 // helperText={
-                //   store.getState().userAuth.message.type === "error"
-                //     ? store.getState().userAuth.message.value
+                //   validationErrorMessage.elementId === "name"
+                //     ? validationErrorMessage.message
                 //     : ""
                 // }
               />
               <TextField
                 className="form__input"
                 margin="normal"
-                required
                 fullWidth
                 id="phoneNumber"
                 label="Ваш номер телефона"
@@ -115,13 +107,22 @@ function Auth() {
                 autoComplete="off"
                 autoFocus
                 onChange={handleInputChange}
+                // error={
+                //   validationErrorMessage.elementId === "phoneNumber"
+                //     ? true
+                //     : false
+                // }
+                // helperText={
+                //   validationErrorMessage.elementId === "phoneNumber"
+                //     ? validationErrorMessage.message
+                //     : ""
+                // }
               />
             </>
           )}
           <TextField
             className="form__input"
             margin="normal"
-            required
             fullWidth
             id="email"
             label="Электронная почта"
@@ -129,11 +130,16 @@ function Auth() {
             autoComplete="off"
             autoFocus
             onChange={handleInputChange}
+            // error={validationErrorMessage.elementId === "email" ? true : false}
+            // helperText={
+            //   validationErrorMessage.elementId === "email"
+            //     ? validationErrorMessage.message
+            //     : ""
+            // }
           />
           <TextField
             className="form__input"
             margin="normal"
-            required
             fullWidth
             name="password"
             label="Пароль"
@@ -141,6 +147,14 @@ function Auth() {
             id="password"
             autoComplete="off"
             onChange={handleInputChange}
+            // error={
+            //   validationErrorMessage.elementId === "password" ? true : false
+            // }
+            // helperText={
+            //   validationErrorMessage.elementId === "password"
+            //     ? validationErrorMessage.message
+            //     : ""
+            // }
           />
           <Button
             className="form__button"
@@ -149,10 +163,10 @@ function Auth() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            {authUi ? "Войти" : "Зарегистрироваться"}
+            {authUi.isLogin ? "Войти" : "Зарегистрироваться"}
           </Button>
           <Grid container>
-            {authUi && (
+            {authUi.isLogin && (
               <Grid item xs>
                 <Link
                   sx={{ cursor: "pointer" }}
@@ -170,7 +184,7 @@ function Auth() {
                 className="auth__link"
                 onClick={handleAuthType}
               >
-                {authUi ? "Зарегистрироваться" : "Уже зарегистрированы?"}
+                {authUi.isLogin ? "Зарегистрироваться" : "Уже зарегистрированы?"}
               </Link>
             </Grid>
           </Grid>
