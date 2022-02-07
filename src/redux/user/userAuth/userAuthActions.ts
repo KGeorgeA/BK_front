@@ -4,9 +4,10 @@ import {
   IResError,
   IUserAuth,
   IUserState,
-} from "../../types/user/user.types";
-import { initialState } from "./userSlice";
+} from "../../../types/user/user.types";
+import { initialState } from "./userAuthSlice";
 
+// user auth actions
 export const signinAction: CaseReducer<IUserState, PayloadAction<IUserAuth>> = (
   state,
   action
@@ -31,7 +32,7 @@ export const signoutAction: CaseReducer<IUserState> = (state) => {
   localStorage.clear();
   return {
     user: initialState.user,
-    isSignIn: initialState.isSignIn,
+    isSignIn: false,
     error: initialState.error,
   };
 };
@@ -52,3 +53,4 @@ export const tokenAuthAction: CaseReducer<
   isSignIn: true,
   error: action.payload.error,
 });
+

@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signinThunk, signupThunk } from "../../redux/user/userAuthThunk";
-import { useNavigate } from "react-router-dom";
+import {
+  signinThunk,
+  signupThunk,
+} from "../../redux/user/userAuth/userAuthThunk";
+import { Location, useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Grid, TextField, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { AuthDiv, AuthHeader } from "./Auth.styles";
+import { useAppSelector } from "../../utils/hooks/reduxHooks";
 
 function Auth() {
   const [data, setData] = useState({
@@ -14,13 +18,16 @@ function Auth() {
     phoneNumber: "",
     password: "",
   });
-  const [authUi, setAuthUi] = useState({isLogin: true});
+  const [authUi, setAuthUi] = useState({ isLogin: true });
   // const [validationErrorMessage, setValidationErrorMessage] = useState("");
+  // const { isSignIn } = useAppSelector((state) => state.userAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const location = useLocation();
 
-  // const fromPage = location.state?.from?.pathname || '/'; // ???
+  // const location: any = useLocation();
+
+  // const fromPage = location.state?.from?.pathname; // ???
+
   // useEffect(() => {
   //   setValidationErrorMessage(store.getState().userAuth.message.value);
   //   console.log(validationErrorMessage);
@@ -45,7 +52,7 @@ function Auth() {
   };
 
   const handleAuthType: React.MouseEventHandler<HTMLAnchorElement> = () => {
-    setAuthUi({isLogin: !authUi.isLogin});
+    setAuthUi({ isLogin: !authUi.isLogin });
   };
 
   return (
@@ -184,7 +191,9 @@ function Auth() {
                 className="auth__link"
                 onClick={handleAuthType}
               >
-                {authUi.isLogin ? "Зарегистрироваться" : "Уже зарегистрированы?"}
+                {authUi.isLogin
+                  ? "Зарегистрироваться"
+                  : "Уже зарегистрированы?"}
               </Link>
             </Grid>
           </Grid>

@@ -1,16 +1,17 @@
 export interface IUserState {
   user: IUser;
-  isSignIn: boolean;
+  isSignIn?: boolean;
+  loading?: boolean;
   error: IResError;
 }
 
 export interface IUser {
   name: string;
-  email: string;
   surname?: string;
   dob?: string;
   phoneNumber?: string;
-  token: string;
+  email: string;
+  token?: string;
 }
 
 export interface IResAuthForToken {
@@ -19,6 +20,7 @@ export interface IResAuthForToken {
 }
 
 export interface IResError {
+  code?: string;
   type: string;
   value: string;
 }
@@ -41,3 +43,10 @@ export interface IUserAuth {
 }
 
 export type tokenType = string | null;
+
+export interface IPasswordChangeData {
+  passwordFirst: string;
+  passwordSecond: string;
+  password: string;
+
+}

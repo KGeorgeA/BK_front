@@ -4,16 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { ButtonUnstyled } from "@mui/material";
 
-import { HeaderS } from "./Header.styles";
-import { HeaderContainer } from "./HeaderContainer.styles";
-import { HeaderMain } from "./HeaderMain.styles";
-import { HeaderLogo } from "./HeaderLogo.styles";
+import {
+  HeaderS,
+  HeaderContainer,
+  HeaderMain,
+  HeaderLogo,
+} from "./Header.styles";
 
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { signout } from "../../redux/user/userSlice";
+import { signout } from "../../redux/user/userAuth/userAuthSlice";
 
 function Header() {
   const { isSignIn } = useAppSelector((state) => state.userAuth);
@@ -34,23 +35,35 @@ function Header() {
               <p className="header__text">Bookstore</p>
             </HeaderLogo>
           </Link>
+          <div>Продам гараж</div>
           <div className="header__menu">
-            <Link to="/userpage">
-              <AccountCircleIcon sx={{ color: "black" }} fontSize="large" />
-            </Link>
-            <Link to="/userpage/cart">
-              <ShoppingCartIcon
-                fontSize="large"
-                sx={{ color: "black" }}
-              ></ShoppingCartIcon>
-            </Link>
-            {isSignIn && (
-              <ButtonUnstyled onClick={handleLogout}>
-                <LogoutIcon
+            <div className="header__icons">
+              {isSignIn ? (
+                <Link to="/userpage/profile">
+                  <AccountCircleIcon sx={{ color: "black" }} fontSize="large" />
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <AccountCircleIcon sx={{ color: "black" }} fontSize="large" />
+                </Link>
+              )}
+            </div>
+            <div className="header__icons">
+              <Link to="/userpage/cart">
+                <ShoppingCartIcon
                   fontSize="large"
                   sx={{ color: "black" }}
+                ></ShoppingCartIcon>
+              </Link>
+            </div>
+            {isSignIn && (
+              <div className="header__icons">
+                <LogoutIcon
+                  fontSize="large"
+                  sx={{ color: "black", cursor: "pointer" }}
+                  onClick={handleLogout}
                 ></LogoutIcon>
-              </ButtonUnstyled>
+              </div>
             )}
           </div>
         </HeaderMain>

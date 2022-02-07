@@ -1,5 +1,4 @@
 import Axios from "axios";
-
 const api = Axios.create({
   baseURL: "http://localhost:4000",
 });
@@ -10,16 +9,19 @@ api.interceptors.request.use(async (url: any) => {
   if (token) {
     url.headers.common.Authorization = `Bearer ${token}`;
   } else {
-    url.headers.common.Authorization = '';
+    url.headers.common.Authorization = "";
   }
 
   return url;
 });
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log("response");
+    return response;
+  },
   async (error) => {
-    return error.response
+    return error.response;
   }
 );
 

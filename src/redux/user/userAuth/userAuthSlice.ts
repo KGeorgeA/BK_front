@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IUserState } from "../../types/user/user.types";
+import { IUserState } from "../../../types/user/user.types";
 import {
   signinAction,
   signupAction,
   signoutAction,
   tokenAuthAction,
-  errorAction
-} from "./userActions";
+  errorAction,
+} from "./userAuthActions";
 
 export const initialState: IUserState = {
   user: {
@@ -14,7 +14,8 @@ export const initialState: IUserState = {
     email: "",
     token: "",
   },
-  isSignIn: false,
+  // isSignIn: false,
+  loading: false,
   error: {
     type: "",
     value: "",
@@ -31,6 +32,14 @@ export const userAuthSlice = createSlice({
     error: errorAction,
     tokenAuth: tokenAuthAction,
   },
+  // extraReducers: {
+  //   [`userAuth/tokenCheck/fulfilled`]: (state, action) => {
+  //     return { ...state, loading: false };
+  //   },
+  //   [`userAuth/tokenCheck/pending`]: (state, action) => {
+  //     return { ...state, loading: true };
+  //   },
+  // },
 });
 
 export const { signin, signup, signout, error, tokenAuth } =

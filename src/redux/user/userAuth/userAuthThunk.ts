@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
-import { signinApi, signupApi, tokenAuthApi } from "../../api/user.api";
+import { signinApi, signupApi, tokenAuthApi } from "../../../api/user.api";
 import {
   IResAuthForToken,
   IUserSigninDataApi,
   IUserSignupDataApi,
   IUserState,
   tokenType,
-} from "../../types/user/user.types";
-import { signin, signup, error, tokenAuth } from "./userSlice";
+} from "../../../types/user/user.types";
+import { signin, signup, error, tokenAuth } from "./userAuthSlice";
 
 // добавить типизацию
 export const signinThunk = createAsyncThunk<void, IUserSigninDataApi>(
@@ -21,7 +21,7 @@ export const signinThunk = createAsyncThunk<void, IUserSigninDataApi>(
         dispatch(error(res.data.error));
       }
       if (res.data.error.type === "success") {
-        localStorage.setItem("token", res.data.user.token);
+        localStorage.setItem("token", res.data.user.token || "");
         dispatch(signin(res.data));
       }
     } catch (error: any) {
