@@ -3,6 +3,7 @@ import {
   IUser,
   IUserSigninDataApi,
   IUserSignupDataApi,
+  IUserState,
   tokenType,
 } from "../types/user/user.types";
 import api from "./axios";
@@ -37,8 +38,14 @@ export const userPasswordChange = async (data: IPasswordChangeData) => {
   return response;
 };
 
-export const userSetAvatar = async (data: { picture: string }) => {
-  const response = await api.post("/userdata/avatarchange", { data });
+export const userSetAvatar = async (data: FormData) => {
+  const response = await api.post("/userdata/avatarchange", data);
+
+  return response;
+};
+
+export const userGetData = async () => {
+  const response = await api.get("/userdata/getdata");
 
   return response;
 };

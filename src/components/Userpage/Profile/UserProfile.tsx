@@ -3,30 +3,37 @@ import { useAppSelector } from "../../../utils/hooks/reduxHooks";
 import { Box, Button, Input, TextField } from "@mui/material";
 import { Profile } from "../UserPage.styles";
 import { useDispatch } from "react-redux";
-import { passwordChangeThunk } from "../../../redux/user/userData/userDataThunk";
-import api from "../../../api/axios";
+import {
+  avatarUploadThunk,
+  dataChangeThunk,
+  passwordChangeThunk,
+} from "../../../redux/user/userData/userDataThunk";
+import { IUser } from "../../../types/user/user.types";
 
 function UserProfile() {
   const dispatch = useDispatch();
+  const { avatarPath, isCompleted } = useAppSelector((state) => state.userData);
   const { name, surname, email, phoneNumber, dob } = useAppSelector(
     (state) => state.userData.user
   );
-  const { code, type, value } = useAppSelector((state) => state.userData.error);
-  const [data, setData] = useState({
-    name,
-    surname,
-    email,
-    phoneNumber,
-    dob,
-    password: "",
+  // const { code, type, value } = useAppSelector((state) => state.userData.error);
+  const [data, setData] = useState<IUser>({
+    name: "",
+    surname: "",
+    email: "",
+    phoneNumber: "",
   });
   const [passwordData, setPasswordData] = useState({
     passwordFirst: "",
     passwordSecond: "",
     password: "",
   });
-  const [selectedFile, setSelectedFile] = useState({});
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  // const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
+
+  useEffect(() => {
+    setData({ name, surname, email, phoneNumber });
+  }, [isCompleted]);
 
   const handleContactsInputChange: React.ChangeEventHandler<
     HTMLInputElement
@@ -50,31 +57,26 @@ function UserProfile() {
   };
 
   const handleFileUpload: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
-    ev.preventDefault();
-    // КАК С ЭТИМ БОРОТЬСЯ?
-    // @ts-ignore
-    setSelectedFile(ev.target.files[0]);
-
-    // {
-    //   target: { files },
-    // }: any
-
-    // console.log(files[0]);
-    // const data = new FormData();
-    // data.append("file", files[0]);
-    // console.log(data);
-    // api
-    //   .post("/userdata/avatarchange", files[0])
-    //   .then((res) => console.log(res));
+    setSelectedFile(ev.target.files![0]);
   };
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
     ev.preventDefault();
-    console.log(selectedFile);
-    api
-      .post("/userdata/avatarchange", selectedFile)
-      .then((res) => console.log(res));
+    if (selectedFile) {
+      const data = new FormData();
+      data.append("file", selectedFile);
+      dispatch(avatarUploadThunk(data));
+    }
   };
+
+  const handleUpdateData: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
+    ev.preventDefault();
+    dispatch(dataChangeThunk(data));
+  };
+
+  if (!isCompleted) {
+    return null;
+  }
 
   return (
     <Profile className="userpage__profile profile">
@@ -86,7 +88,7 @@ function UserProfile() {
             id="name"
             className="contacts__item"
             fullWidth
-            value={data.name}
+            value={data.name || ""}
             onChange={handleContactsInputChange}
           />
           <TextField
@@ -94,7 +96,7 @@ function UserProfile() {
             id="surname"
             className="contacts__item"
             fullWidth
-            value={data.surname}
+            value={data.surname || ""}
             onChange={handleContactsInputChange}
           />
           <TextField
@@ -102,7 +104,7 @@ function UserProfile() {
             id="dob"
             className="contacts__item"
             fullWidth
-            value={data.dob}
+            value={dob}
             onChange={handleContactsInputChange}
           />
           <TextField
@@ -110,7 +112,7 @@ function UserProfile() {
             id="phonenumber"
             className="contacts__item"
             fullWidth
-            value={data.phoneNumber}
+            value={data.phoneNumber || ""}
             onChange={handleContactsInputChange}
           />
           <TextField
@@ -118,9 +120,10 @@ function UserProfile() {
             id="email"
             className="contacts__item"
             fullWidth
-            value={data.email}
+            value={data.email || ""}
             onChange={handleContactsInputChange}
           />
+          <Button onClick={handleUpdateData}>Сохранить изменения</Button>
         </Box>
         <Box className="profile__password-changer password-changer">
           <div className="password-changer__title title">Смена пароля</div>
@@ -149,7 +152,7 @@ function UserProfile() {
             name="password"
             onChange={handlePasswordInputChange}
             value={passwordData.password}
-            helperText="123"
+            helperText=""
           />
           <Button onClick={handlePasswordSubmit}>Send</Button>
         </Box>
@@ -158,7 +161,7 @@ function UserProfile() {
           <div className="image-changer__image">
             <img
               className="changing-img"
-              src="https://cdn-icons.flaticon.com/png/512/1144/premium/1144760.png?token=exp=1644229735~hmac=9bfe09442cd71e853da5b90256401224"
+              src={avatarPath ? `http://localhost:4000${avatarPath}` : ""}
               alt="user_avatar"
             />
           </div>
@@ -166,7 +169,6 @@ function UserProfile() {
             component="form"
             encType="multipart/form-data"
             sx={{ display: "flex", flexDirection: "column" }}
-            // onSubmit={handleUpload}
           >
             <Input
               type="file"

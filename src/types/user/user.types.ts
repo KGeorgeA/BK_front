@@ -1,7 +1,8 @@
 export interface IUserState {
   user: IUser;
   isSignIn?: boolean;
-  loading?: boolean;
+  isCompleted?: boolean;
+  avatarPath?: string;
   error: IResError;
 }
 

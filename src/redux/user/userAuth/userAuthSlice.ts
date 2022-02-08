@@ -15,7 +15,7 @@ export const initialState: IUserState = {
     token: "",
   },
   // isSignIn: false,
-  loading: false,
+  isCompleted: false,
   error: {
     type: "",
     value: "",
@@ -32,14 +32,20 @@ export const userAuthSlice = createSlice({
     error: errorAction,
     tokenAuth: tokenAuthAction,
   },
-  // extraReducers: {
-  //   [`userAuth/tokenCheck/fulfilled`]: (state, action) => {
-  //     return { ...state, loading: false };
-  //   },
-  //   [`userAuth/tokenCheck/pending`]: (state, action) => {
-  //     return { ...state, loading: true };
-  //   },
-  // },
+  extraReducers: {
+    [`userAuth/tokenCheck/fulfilled`]: (state, action) => {
+      return { ...state, isCompleted: true };
+    },
+    [`userAuth/tokenCheck/pending`]: (state, action) => {
+      return { ...state, isCompleted: false };
+    },
+    [`userAuth/signup/pending`]: (state, action) => {
+      return { ...state, isCompleted: false };
+    },
+    [`userAuth/signup/fulfilled`]: (state, action) => {
+      return { ...state, isCompleted: true };
+    },
+  },
 });
 
 export const { signin, signup, signout, error, tokenAuth } =

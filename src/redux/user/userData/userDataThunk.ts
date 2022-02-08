@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
-import { userDataChange, userPasswordChange, userSetAvatar } from "../../../api/user.api";
+import { userDataChange, userGetData, userPasswordChange, userSetAvatar } from "../../../api/user.api";
 import {
   dataChange,
   passwordChange,
   avatarChange,
+  getData,
 } from "./userDataSlice";
 import {
   IPasswordChangeData,
@@ -14,11 +15,25 @@ import {
 } from "../../../types/user/user.types";
 import { error } from "../userAuth/userAuthSlice";
 
+export const getUserDataThunk = createAsyncThunk<void, IUserState>(
+  "userData/getData",
+  async (data, {dispatch}) => {
+    const res: AxiosResponse<IUserState> = await userGetData();
+    
+    if (res.data.error.type === 'error') {
+      dispatch(error(res.data.error));
+    } else {
+      dispatch(getData(res.data));
+    }
+  }
+)
+
 export const dataChangeThunk = createAsyncThunk<void, IUser>(
   "userData/datachange",
   async (data, { dispatch }) => {
     try {
       const res: AxiosResponse<IUserState> = await userDataChange(data);
+
       if (res.data.error.type === 'error') {
         dispatch(error(res.data.error));
       } else {
@@ -46,12 +61,12 @@ export const passwordChangeThunk = createAsyncThunk<void, IPasswordChangeData>(
   }
 );
 
-export const avatarChangeThunk = createAsyncThunk<void, unknown>(
+export const avatarUploadThunk = createAsyncThunk<void, FormData>(
   "userData/avatarchange",
   async (data, { dispatch }) => {
     try {
-      // const res: AxiosResponse<FileList> = await userSetAvatar(data);
-      console.log('123');
+      const res: AxiosResponse<string> = await userSetAvatar(data);
+      dispatch(avatarChange(res.data))
       
     } catch (error) {
       console.log("Thunk password change error: ", error);

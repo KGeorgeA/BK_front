@@ -17,7 +17,6 @@ api.interceptors.request.use(async (url: any) => {
 
 api.interceptors.response.use(
   (response) => {
-    console.log("response");
     return response;
   },
   async (error) => {

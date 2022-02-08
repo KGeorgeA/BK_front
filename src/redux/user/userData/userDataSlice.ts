@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IUserState } from "../../../types/user/user.types";
-import {passwordChangeAction, userDataChangeAction} from './userDataActions'
+import {
+  clearDataAction,
+  getUserDataAction,
+  passwordChangeAction,
+  userDataChangeAction,
+} from "./userDataActions";
 
 export const initialState: IUserState = {
   user: {
@@ -10,6 +15,7 @@ export const initialState: IUserState = {
     phoneNumber: "",
     email: "",
   },
+  avatarPath: "",
   error: {
     type: "",
     value: "",
@@ -22,10 +28,35 @@ export const userDataSlice = createSlice({
   reducers: {
     dataChange: userDataChangeAction,
     passwordChange: passwordChangeAction,
-    avatarChange: (state, action) => ({ ...state }),
+    avatarChange: (state, { payload }: { payload: string }) => ({
+      ...state,
+      avatarPath: payload,
+    }),
+    getData: getUserDataAction,
+    clearData: clearDataAction,
+  },
+  extraReducers: {
+    [`userData/getData`]: (state, action) => {
+      return {
+        ...state,
+        isCompleted: true,
+      };
+    },
+    [`userData/getData/fulfilled`]: (state, action) => {
+      return {
+        ...state,
+        isCompleted: true,
+      };
+    },
+    [`userData/getData/pending`]: (state, action) => {
+      return {
+        ...state,
+        isCompleted: false,
+      };
+    },
   },
 });
 
-export const { dataChange, passwordChange, avatarChange } =
+export const { dataChange, passwordChange, avatarChange, getData, clearData } =
   userDataSlice.actions;
 export default userDataSlice.reducer;

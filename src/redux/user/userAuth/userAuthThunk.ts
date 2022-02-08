@@ -40,6 +40,7 @@ export const signupThunk = createAsyncThunk<void, IUserSignupDataApi>(
         dispatch(error(res.data.error));
       }
       if (res.data.error.type === "success") {
+        localStorage.setItem('token', res.data.user.token!);
         dispatch(signup(res.data));
       }
     } catch (error: any) {

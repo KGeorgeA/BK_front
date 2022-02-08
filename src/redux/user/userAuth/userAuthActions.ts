@@ -31,6 +31,7 @@ export const signupAction: CaseReducer<IUserState, PayloadAction<IUserAuth>> = (
 export const signoutAction: CaseReducer<IUserState> = (state) => {
   localStorage.clear();
   return {
+    ...state,
     user: initialState.user,
     isSignIn: false,
     error: initialState.error,
@@ -49,6 +50,7 @@ export const tokenAuthAction: CaseReducer<
   IUserState,
   PayloadAction<IResAuthForToken>
 > = (state, action) => ({
+  ...state,
   user: action.payload.user,
   isSignIn: true,
   error: action.payload.error,

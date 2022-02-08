@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
 import { Userpage } from "./UserPage.styles";
 
 function UserPage() {
-  const { name, surname, email, phoneNumber, dob } = useAppSelector(
-    (state) => state.userAuth.user
-  );
-  const [filter, setFilter] = useState("Профиль");
+  const {
+    user: { name, surname, email, phoneNumber },
+    avatarPath,
+  } = useAppSelector((state) => state.userData);
+  const [filter, setFilter] = useState<string>("Профиль");
 
   return (
     <Userpage className="userpage">
@@ -17,22 +18,19 @@ function UserPage() {
         </div>
         <div className="userpage__user">
           <div className="userpage__user-image">
-            <img className="profile-img" src="https://cdn-icons.flaticon.com/png/512/1144/premium/1144760.png?token=exp=1644229735~hmac=9bfe09442cd71e853da5b90256401224" alt="user_avatar" />
+            <img
+              className="profile-img"
+              src={avatarPath ? `http://localhost:4000${avatarPath}` : ""}
+              alt="user_avatar"
+            />
           </div>
           <div className="userpage__user-info">
             <div className="userpage__user-name">
-              {/* {name} {surname} */}
-              George Karcivadze
+              {name} {surname}
             </div>
             <div className="userpage__user-contacts user-contacts">
-              <div className="user-contacts__phone">
-                +79515235344
-                {/* {phoneNumber} */}
-              </div>
-              <div className="user-contacts__email">
-                karcivadzega@gmail.com
-                {/* {email} */}
-              </div>
+              <div className="user-contacts__phone">{phoneNumber}</div>
+              <div className="user-contacts__email">{email}</div>
             </div>
           </div>
         </div>

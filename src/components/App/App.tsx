@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import PrivateRoute, { PrivateRouteProps } from "../hoc/PrivateRoute";
@@ -15,35 +15,35 @@ import { useAppSelector } from "../../utils/hooks/reduxHooks";
 import { tokenAuthThunk } from "../../redux/user/userAuth/userAuthThunk";
 import UserOrders from "../Userpage/Orders/UserOrders";
 import UserWishlist from "../Userpage/Wishlist/UserWishlist";
-// 47 СТРОКА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const App: React.FC = () => {
-  console.log("1");
+import { getUserDataThunk } from "../../redux/user/userData/userDataThunk";
 
+const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { isSignIn, loading } = useAppSelector((state) => state.userAuth);
-  const location = useLocation();
+  const { isSignIn, isCompleted } = useAppSelector((state) => state.userAuth);
+  const state = useAppSelector(state => state.userData)
+  // const location = useLocation();
   // console.log("location", location);
 
   useEffect(() => {
-    console.log("2");
-
-    // console.log(isSignIn);
     const token = localStorage.getItem("token");
     dispatch(tokenAuthThunk(token));
-    // console.log( isSignIn);
+    dispatch(getUserDataThunk(state));
   }, []);
 
-  const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
-    isAuthenticated: true,
-    authenticationPath: "/auth",
+  if (!isCompleted) {
+    return null;
+  }
 
-    loading: loading,
+  const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
+    isAuthenticated: isSignIn,
+    authenticationPath: "/auth",
   };
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Main />} />
+        {/* <Route path="?page"/> */}
         <Route path="auth" element={<Auth />} />
         <Route
           path="userpage"
@@ -54,7 +54,6 @@ const App: React.FC = () => {
           <Route
             path="profile"
             element={
-              // вложенный приватный роут не работает
               <PrivateRoute
                 {...defaultPrivateRouteProps}
                 outlet={<UserProfile />}
@@ -64,7 +63,6 @@ const App: React.FC = () => {
           <Route
             path="orders"
             element={
-              // вложенный приватный роут не работает
               <PrivateRoute
                 {...defaultPrivateRouteProps}
                 outlet={<UserOrders />}
@@ -74,7 +72,6 @@ const App: React.FC = () => {
           <Route
             path="wishlist"
             element={
-              // вложенный приватный роут не работает
               <PrivateRoute
                 {...defaultPrivateRouteProps}
                 outlet={<UserWishlist />}

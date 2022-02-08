@@ -15,6 +15,7 @@ import {
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
 import { signout } from "../../redux/user/userAuth/userAuthSlice";
+import { clearData } from "../../redux/user/userData/userDataSlice";
 
 function Header() {
   const { isSignIn } = useAppSelector((state) => state.userAuth);
@@ -23,6 +24,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(signout());
+    dispatch(clearData());
     navigate("/");
   };
 
