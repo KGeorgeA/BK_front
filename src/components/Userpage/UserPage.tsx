@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { SERVER_PATH } from "../../constants/notNamedYet";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
 import { Userpage } from "./UserPage.styles";
 
@@ -20,7 +21,7 @@ function UserPage() {
           <div className="userpage__user-image">
             <img
               className="profile-img"
-              src={avatarPath ? `http://localhost:4000${avatarPath}` : ""}
+              src={avatarPath ? `${SERVER_PATH}${avatarPath}` : ""}
               alt="user_avatar"
             />
           </div>

@@ -43,7 +43,6 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Main />} />
-        {/* <Route path="?page"/> */}
         <Route path="auth" element={<Auth />} />
         <Route
           path="userpage"

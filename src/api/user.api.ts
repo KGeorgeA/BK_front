@@ -3,7 +3,7 @@ import {
   IUser,
   IUserSigninDataApi,
   IUserSignupDataApi,
-  IUserState,
+  // IUserState,
   tokenType,
 } from "../types/user/user.types";
 import api from "./axios";

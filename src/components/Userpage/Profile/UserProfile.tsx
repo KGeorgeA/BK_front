@@ -9,6 +9,7 @@ import {
   passwordChangeThunk,
 } from "../../../redux/user/userData/userDataThunk";
 import { IUser } from "../../../types/user/user.types";
+import { SERVER_PATH } from "../../../constants/notNamedYet";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -161,7 +162,7 @@ function UserProfile() {
           <div className="image-changer__image">
             <img
               className="changing-img"
-              src={avatarPath ? `http://localhost:4000${avatarPath}` : ""}
+              src={avatarPath ? `${SERVER_PATH}${avatarPath}` : ""}
               alt="user_avatar"
             />
           </div>

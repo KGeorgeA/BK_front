@@ -2,14 +2,19 @@ import React from "react";
 
 import { Slider } from "@mui/material";
 import { PriceInput } from "./PriceSlider.styles";
+import { useDispatch } from "react-redux";
 
 const PriceSlider = () => {
+  const dispatch = useDispatch();
   //                                                      [minVal/0, maxVal] from DB?
   const [value, setValue] = React.useState<Array<number>>([15, 507]);
 
+  // useEffect(() => {
+
+  // }, [value]);
+
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
-    // save to store/state
   };
 
   const handleInputBlur = () => {
@@ -32,7 +37,9 @@ const PriceSlider = () => {
     }
   };
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     if (event.currentTarget.id === "minInput") {
       setValue([Number(event.currentTarget.value), value[1]]);
     } else {

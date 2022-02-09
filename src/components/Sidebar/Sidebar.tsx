@@ -62,10 +62,9 @@ function Sidebar() {
       </Menu>
       {categoryFilter && <FilteredCategory filter={categoryFilter} />}
       <PriceSlider />
-      <Button
-        fullWidth={true}
-        onSubmit={() => console.log('hi')}
-      >Send</Button>
+      <Button fullWidth={true} onSubmit={() => console.log("hi")}>
+        Send
+      </Button>
     </SidebarS>
   );
 }
