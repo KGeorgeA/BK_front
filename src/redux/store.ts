@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import bookSearchSlice from "./book/bookSearch/bookSearchSlice";
 
+import categoryFilterSlice from "./categoryFilter/categoryFilterSlice";
+import bookSearchSlice from "./book/bookSearch/bookSearchSlice";
 import userAuthSlice from "./user/userAuth/userAuthSlice";
 import userDataSlice from "./user/userData/userDataSlice";
 
@@ -9,6 +10,7 @@ const store = configureStore({
     userAuth: userAuthSlice,
     userData: userDataSlice,
     bookData: bookSearchSlice,
+    categoryFilterData: categoryFilterSlice,
   },
 });
 

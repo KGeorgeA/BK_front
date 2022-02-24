@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IBooksState } from "../../../types/book/book.types";
 import { booksSearchAction } from "./bookSearchActions";
-// import actions
 
 export const initialState: IBooksState = {
   books: [],

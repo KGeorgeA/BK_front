@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { authorsDataThunk } from "../../redux/categoryFilter/categoryFilterThunk";
 
 import FilteredCategory from "../FilteredCategory/FilteredCategory";
 
@@ -7,16 +8,22 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PriceSlider from "../PriceSlider/PriceSlider";
+import { useDispatch } from "react-redux";
 
 // дропдаун категории Автор Жанр
 // мультиселект на жанрах
 // динамически подгружается список
 function Sidebar() {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [categoryFilter, setCategoryFilter] = React.useState<null | string>(
     null
   );
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    dispatch(authorsDataThunk());
+  }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

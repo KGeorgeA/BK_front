@@ -6,12 +6,13 @@ import BookItemDiv from "./BookItem.styles";
 import { BookImg, BookImgDiv } from "./BookImg.styles";
 import { Link } from "react-router-dom";
 import { IBookItemProps } from "../../types/book/book.types";
+import { SERVER_PATH } from "../../constants/notNamedYet";
 
 const BookItem = (props: IBookItemProps) => {
   return (
     <BookItemDiv className="book">
       <BookImgDiv>
-        <BookImg src={`${props.book.picture}`} alt={props.book.name} />
+        <BookImg src={props.book.picture ? `${SERVER_PATH}${props.book.picture}` : "/images/NOT_FOUND_IMAGE.jpg"} alt={props.book.name} />
       </BookImgDiv>
       <div className="book__link-container link-container">
         <Link to="/" className="book__author-link link">

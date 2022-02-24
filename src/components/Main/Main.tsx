@@ -8,7 +8,7 @@ import { MainContainer } from "./MainContainer.styles";
 function Main() {
   const location = useLocation();
   // const navigate = useNavigate();
-  console.log(location.search);
+  // console.log(location.search);
 
   return (
     <>
