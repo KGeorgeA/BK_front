@@ -8,14 +8,26 @@ import {
   FormGroup,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { filteredSearch } from "../../redux/user/userFilters/userFiltersSlice";
+import { IBookFilters } from "../../types/book/book.types";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
 
 const FilteredCategory = (props: { filter: string }) => {
+  const dispatch = useDispatch();
   const { authors, genres } = useAppSelector(
     (state) => state.categoryFilterData
   );
   const [radioValue, setRadioValue] = useState<string>(""); // выводит пустую строку, а потом нормальное значение
   const [checkBoxes, setCheckBoxes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const data: IBookFilters = {
+      author: radioValue,
+      genre: checkBoxes,
+    };
+    dispatch(filteredSearch(data));
+  }, [radioValue, checkBoxes]);
 
   const handleRadioGroupChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(ev.target.value);
@@ -24,8 +36,9 @@ const FilteredCategory = (props: { filter: string }) => {
   const handleCheckboxGroupChange = (
     ev: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const r = checkBoxes.push(ev.target.value)
-    setCheckBoxes()
+    checkBoxes.push(ev.target.value);
+    // setCheckBoxes()
+    console.log(checkBoxes);
   };
 
   return (
@@ -46,7 +59,7 @@ const FilteredCategory = (props: { filter: string }) => {
           {genres.map((item: any) => (
             <FormControlLabel
               key={item.id}
-              value={item.value}
+              value={item.id}
               control={<Checkbox />}
               label={item.name}
             />

@@ -40,4 +40,5 @@ export interface IBooksQuerySearch {
   queryTitle: IGetBookApi;
   books: IBook[];
   pageQty: number;
+  price: IBooksMinMaxPrice;
 }

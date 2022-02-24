@@ -1,15 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { getBooksApi } from "../../../api/book.api";
-import { IBooksQuerySearch, IBooksState, IGetBookApi } from "../../../types/book/book.types";
+import {
+  IBooksQuerySearch,
+  IBooksState,
+  IGetBookApi,
+} from "../../../types/book/book.types";
 // import {} from "../../../types/book/book.types";
 import { booksSearch } from "./bookSearchSlice";
 
 export const booksSearchThunk = createAsyncThunk<void, IGetBookApi>(
   "book/getBooks",
-  async (data, {dispatch}) => {
+  async (data, { dispatch }) => {
     const res: AxiosResponse<IBooksQuerySearch> = await getBooksApi(data);
-    
+    // console.log("booksSearchThunk", res.data);
     dispatch(booksSearch(res.data));
   }
-)
+);
+
+// export const booksFilteredSearchThunk = createAsyncThunk<void, IGetBookApi>(
+//   "book/getFilteredBooks",
+//   async (data, {dispatch}) => {
+//     const res: AxiosResponse<IBooksQuerySearch> = await getBooksApi(data);
+//     // console.log("booksFilteredSearchAction", res.data);
+//     dispatch(booksSearch(res.data));
+//   }
+// )

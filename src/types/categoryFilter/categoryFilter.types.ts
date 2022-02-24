@@ -1,4 +1,4 @@
-export interface IAuthorState {
+export interface ICategoryFilter {
     authors: object[];
     genres: object[];
 }
