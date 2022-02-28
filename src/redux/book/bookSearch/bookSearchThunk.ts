@@ -6,7 +6,6 @@ import {
   IBooksState,
   IGetBookApi,
 } from "../../../types/book/book.types";
-// import {} from "../../../types/book/book.types";
 import { booksSearch } from "./bookSearchSlice";
 
 export const booksSearchThunk = createAsyncThunk<void, IGetBookApi>(
@@ -17,12 +16,3 @@ export const booksSearchThunk = createAsyncThunk<void, IGetBookApi>(
     dispatch(booksSearch(res.data));
   }
 );
-
-// export const booksFilteredSearchThunk = createAsyncThunk<void, IGetBookApi>(
-//   "book/getFilteredBooks",
-//   async (data, {dispatch}) => {
-//     const res: AxiosResponse<IBooksQuerySearch> = await getBooksApi(data);
-//     // console.log("booksFilteredSearchAction", res.data);
-//     dispatch(booksSearch(res.data));
-//   }
-// )
