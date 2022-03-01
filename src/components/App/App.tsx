@@ -4,17 +4,17 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import PrivateRoute, { PrivateRouteProps } from "../hoc/PrivateRoute";
 import Layout from "../Layout/Layout";
 import Main from "../Main/Main";
-import Auth from "../Auth/Auth";
+import Auth from "../User/Auth/Auth";
 import NotFound from "../NotFound/NotFound";
-import UserPage from "../Userpage/UserPage";
-import UserProfile from "../Userpage/Profile/UserProfile";
-import UserCart from "../Userpage/Cart/UserCart";
+import UserPage from "../User/Userpage/UserPage";
+import UserProfile from "../User/Userpage/Profile/UserProfile";
+import UserCart from "../User/Userpage/Cart/UserCart";
 
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
 import { tokenAuthThunk } from "../../redux/user/userAuth/userAuthThunk";
-import UserOrders from "../Userpage/Orders/UserOrders";
-import UserWishlist from "../Userpage/Wishlist/UserWishlist";
+import UserOrders from "../User/Userpage/Orders/UserOrders";
+import UserWishlist from "../User/Userpage/Wishlist/UserWishlist";
 import { getUserDataThunk } from "../../redux/user/userData/userDataThunk";
 
 const App: React.FC = () => {

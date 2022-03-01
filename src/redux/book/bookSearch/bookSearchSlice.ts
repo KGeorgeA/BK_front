@@ -7,7 +7,7 @@ export const initialState: IBooksState = {
 };
 
 export const bookSearchSlice = createSlice({
-  name: "book",
+  name: "bookData",
   initialState,
   reducers: {
     booksSearch: booksSearchAction,

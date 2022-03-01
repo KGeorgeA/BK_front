@@ -5,8 +5,8 @@ import Button from "@mui/material/Button";
 import BookItemDiv from "./BookItem.styles";
 import { BookImg, BookImgDiv } from "./BookImg.styles";
 import { Link } from "react-router-dom";
-import { IBookItemProps } from "../../types/book/book.types";
-import { SERVER_PATH } from "../../constants/notNamedYet";
+import { IBookItemProps } from "../../../types/book/book.types";
+import { SERVER_PATH } from "../../../constants/serverPath";
 
 const BookItem = (props: IBookItemProps) => {
   return (

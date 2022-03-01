@@ -7,7 +7,9 @@ export const booksSearchAction: CaseReducer<
   IBooksState,
   PayloadAction<IBooksQuerySearch>
 > = (state, action) => ({
+  ...state,
   books: action.payload.books,
   pageQty: action.payload.pageQty,
   price: action.payload.price,
+  error: action.payload.error,
 });

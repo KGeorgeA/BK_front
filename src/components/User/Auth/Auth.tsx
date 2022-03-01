@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 import {
   signinThunk,
   signupThunk,
-} from "../../redux/user/userAuth/userAuthThunk";
+} from "../../../redux/user/userAuth/userAuthThunk";
 import { Location, useLocation, useNavigate } from "react-router-dom";
 
 import { Button, Grid, TextField, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { AuthDiv, AuthHeader } from "./Auth.styles";
-import { useAppSelector } from "../../utils/hooks/reduxHooks";
+import { useAppSelector } from "../../../utils/hooks/reduxHooks";
 
 function Auth() {
   const [data, setData] = useState({

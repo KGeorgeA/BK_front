@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { SERVER_PATH } from "../../constants/notNamedYet";
-import { useAppSelector } from "../../utils/hooks/reduxHooks";
+import { SERVER_PATH } from "../../../constants/serverPath";
+import { useAppSelector } from "../../../utils/hooks/reduxHooks";
 import { Userpage } from "./UserPage.styles";
 
 function UserPage() {

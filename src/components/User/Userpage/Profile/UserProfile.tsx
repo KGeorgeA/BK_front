@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../utils/hooks/reduxHooks";
+import { useAppSelector } from "../../../../utils/hooks/reduxHooks";
 import { Box, Button, Input, TextField } from "@mui/material";
 import { Profile } from "../UserPage.styles";
 import { useDispatch } from "react-redux";
@@ -7,9 +7,9 @@ import {
   avatarUploadThunk,
   dataChangeThunk,
   passwordChangeThunk,
-} from "../../../redux/user/userData/userDataThunk";
-import { IUser } from "../../../types/user/user.types";
-import { SERVER_PATH } from "../../../constants/notNamedYet";
+} from "../../../../redux/user/userData/userDataThunk";
+import { IUser } from "../../../../types/user/user.types";
+import { SERVER_PATH } from "../../../../constants/serverPath";
 
 function UserProfile() {
   const dispatch = useDispatch();
