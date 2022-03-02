@@ -8,6 +8,7 @@ import {
   IUserState,
   tokenType,
 } from "../../../types/user/user.types";
+import { getData } from "../userData/userDataSlice";
 import { signin, signup, error, tokenAuth } from "./userAuthSlice";
 
 // добавить типизацию
@@ -16,6 +17,7 @@ export const signinThunk = createAsyncThunk<void, IUserSigninDataApi>(
   async (data, { dispatch }) => {
     try {
       const res: AxiosResponse<IUserState> = await signinApi(data);
+      console.log("userauththunk", data, res);
 
       if (res.data.error.type === "error") {
         dispatch(error(res.data.error));
@@ -40,7 +42,7 @@ export const signupThunk = createAsyncThunk<void, IUserSignupDataApi>(
         dispatch(error(res.data.error));
       }
       if (res.data.error.type === "success") {
-        localStorage.setItem('token', res.data.user.token!);
+        localStorage.setItem("token", res.data.user.token!);
         dispatch(signup(res.data));
       }
     } catch (error: any) {

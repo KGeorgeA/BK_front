@@ -28,7 +28,7 @@ const App: React.FC = () => {
     const token = localStorage.getItem("token");
     dispatch(tokenAuthThunk(token));
     dispatch(getUserDataThunk(state));
-  }, []);
+  }, [isSignIn]);
 
   if (!isCompleted) {
     return null;

@@ -14,7 +14,6 @@ export const initialState: IUserState = {
     email: "",
     token: "",
   },
-  // isSignIn: false,
   isCompleted: false,
   error: {
     type: "",

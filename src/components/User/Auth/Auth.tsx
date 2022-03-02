@@ -10,6 +10,7 @@ import { Button, Grid, TextField, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { AuthDiv, AuthHeader } from "./Auth.styles";
 import { useAppSelector } from "../../../utils/hooks/reduxHooks";
+import { getUserDataThunk } from "../../../redux/user/userData/userDataThunk";
 
 function Auth() {
   const [data, setData] = useState({

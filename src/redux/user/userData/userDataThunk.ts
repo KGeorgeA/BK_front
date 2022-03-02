@@ -19,6 +19,7 @@ export const getUserDataThunk = createAsyncThunk<void, IUserState>(
   "userData/getData",
   async (data, {dispatch}) => {
     const res: AxiosResponse<IUserState> = await userGetData();
+    console.log("working")
     
     if (res.data.error.type === 'error') {
       dispatch(error(res.data.error));

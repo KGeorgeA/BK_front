@@ -9,8 +9,9 @@ function UserPage() {
     user: { name, surname, email, phoneNumber },
     avatarPath,
   } = useAppSelector((state) => state.userData);
-  const [filter, setFilter] = useState<string>("Профиль");
 
+  const [filter, setFilter] = useState<string>("Профиль");
+  
   return (
     <Userpage className="userpage">
       <div className="userpage__header">
