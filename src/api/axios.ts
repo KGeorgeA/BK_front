@@ -17,6 +17,10 @@ api.interceptors.request.use(async (url: any) => {
 
 api.interceptors.response.use(
   (response) => {
+    if (response.data.message && response.data.message.code === "401") {
+      localStorage.clear();
+      return response;
+    }
     return response;
   },
   async (error) => {
