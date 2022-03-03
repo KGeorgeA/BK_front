@@ -21,11 +21,9 @@ const FilteredCategory = (props: { filter: string }) => {
   const [radioValue, setRadioValue] = useState<IBookFilters["author"] | null>(
     null
   );
-  // МОЖЕТ ПОЛОЖИТЬ СИСТЕМУ, АККУРАТНО
-  const [checkBoxes, setCheckBoxes] = useState<IBookFilters["genre"] | null>(
-    null
+  const [checkBoxes, setCheckBoxes] = useState<IBookFilters["genre"]>(
+    Array<boolean>(genres.length).fill(false)
   );
-  const genresFilter = new Array<number>(genres.length).fill(0);
   const { price } = useAppSelector((state) => state.searchFiltersData);
 
   useEffect(() => {
@@ -44,14 +42,9 @@ const FilteredCategory = (props: { filter: string }) => {
   const handleCheckboxGroupChange = (
     ev: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // checkBoxes.push(ev.target.value);
-    // setCheckBoxes()
-    genresFilter[Number(ev.target.value) - 1] === Number(ev.target.value)
-      ? (genresFilter[Number(ev.target.value) - 1] = 0)
-      : (genresFilter[Number(ev.target.value) - 1] = Number(ev.target.value));
-    console.log("genreFilter",genresFilter);
-    setCheckBoxes(genresFilter);
-    console.log("chboxes",checkBoxes);
+    const newCheckBoxes = checkBoxes!.slice();
+    newCheckBoxes![Number(ev.target.value) - 1] = !!ev.target.checked;
+    setCheckBoxes(newCheckBoxes);
   };
 
   return (
@@ -75,6 +68,7 @@ const FilteredCategory = (props: { filter: string }) => {
               value={item.id}
               control={<Checkbox />}
               label={item.name}
+              checked={checkBoxes![Number(item.id) - 1]}
             />
           ))}
         </FormGroup>

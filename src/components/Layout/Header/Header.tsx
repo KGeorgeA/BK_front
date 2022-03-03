@@ -32,7 +32,7 @@ function Header() {
     <HeaderS className="header">
       <HeaderContainer className="header-container ">
         <HeaderMain className="header__main">
-          <Link to="/" state={{page: 1,}} className="link">
+          <Link to="/?page=1" state={{page: 1,}} className="link">
             <HeaderLogo className="header__logo">
               <p className="header__text">Bookstore</p>
             </HeaderLogo>

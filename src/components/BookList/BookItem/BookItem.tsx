@@ -12,7 +12,14 @@ const BookItem = (props: IBookItemProps) => {
   return (
     <BookItemDiv className="book">
       <BookImgDiv>
-        <BookImg src={props.book.picture ? `${SERVER_PATH}${props.book.picture}` : "/images/NOT_FOUND_IMAGE.jpg"} alt={props.book.name} />
+        <BookImg
+          src={
+            props.book.picture
+              ? `${SERVER_PATH}${props.book.picture}`
+              : "/images/NOT_FOUND_IMAGE.jpg"
+          }
+          alt={props.book.name}
+        />
       </BookImgDiv>
       <div className="book__link-container link-container">
         <Link to="/" className="book__author-link link">
@@ -25,7 +32,17 @@ const BookItem = (props: IBookItemProps) => {
         </Link>
       </div>
       <div className="book__price">{props.book.price} Р</div>
-      <Button sx={{ color: "white", backgroundColor: "#46c3d2" }}>
+      <Button
+        sx={{
+          color: "white",
+          backgroundColor: "#46c3d2",
+          ":hover": {
+            backgroundColor: "#46c3d2",
+            opacity: "80%",
+            transition: "ease 0.8s",
+          },
+        }}
+      >
         Добавить
       </Button>
     </BookItemDiv>

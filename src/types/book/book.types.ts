@@ -17,7 +17,8 @@ export interface IBookFilters {
   // author?: string | null;
   author?: number | string | null;
   // genre?: number[] | null;
-  genre?: Array<number|string> | null;
+  // genre?: Array<number |string> | null;
+  genre?: Array<boolean> | null;
   price?: IBooksMinMaxPrice | null;
 }
 

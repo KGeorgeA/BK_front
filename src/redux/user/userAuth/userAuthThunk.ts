@@ -8,7 +8,6 @@ import {
   IUserState,
   tokenType,
 } from "../../../types/user/user.types";
-import { getData } from "../userData/userDataSlice";
 import { signin, signup, error, tokenAuth } from "./userAuthSlice";
 
 // добавить типизацию
