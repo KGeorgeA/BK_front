@@ -16,6 +16,7 @@ export const signinThunk = createAsyncThunk<void, IUserSigninDataApi>(
   async (data, { dispatch }) => {
     try {
       const res: AxiosResponse<IUserState> = await signinApi(data);
+      console.log("userauththunk", data, res);
 
       if (res.data.error.type === "error") {
         dispatch(error(res.data.error));
@@ -40,7 +41,7 @@ export const signupThunk = createAsyncThunk<void, IUserSignupDataApi>(
         dispatch(error(res.data.error));
       }
       if (res.data.error.type === "success") {
-        localStorage.setItem('token', res.data.user.token!);
+        localStorage.setItem("token", res.data.user.token!);
         dispatch(signup(res.data));
       }
     } catch (error: any) {
@@ -53,8 +54,8 @@ export const tokenAuthThunk = createAsyncThunk<void, tokenType>(
   "userAuth/tokenCheck",
   async (data, { dispatch }) => {
     try {
-      const res: AxiosResponse<IResAuthForToken> = await tokenAuthApi(data);
       if (localStorage.getItem("token")) {
+        const res: AxiosResponse<IResAuthForToken> = await tokenAuthApi(data);
         dispatch(tokenAuth(res.data));
       }
     } catch (error: any) {

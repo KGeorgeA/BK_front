@@ -1,51 +1,71 @@
 import React, { useEffect, useState } from "react";
+
 import { Pagination, PaginationItem } from "@mui/material";
-import { Link as NavLink, useLocation } from "react-router-dom";
-import BookItem from "../BookItem/BookItem";
+import BookItem from "./BookItem/BookItem";
 import BookListDiv from "./BookList.styles";
+import NotFound from "../NotFound/NotFound";
+
+import { Link as NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { IBooksMinMaxPrice, IGetBookApi } from "../../types/book/book.types";
+import { IBookFilters, IGetBookApi } from "../../types/book/book.types";
 import { booksSearchThunk } from "../../redux/book/bookSearch/bookSearchThunk";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
+import { IQueryType, /* ISearchQueryType, */ searchResolver } from "../../utils/helpers/searchResolver";
 
-interface BookListProps {
-  query: string;
-}
 
-const BookList = (props: BookListProps) => {
+
+const BookList = () => {
   const dispatch = useDispatch();
+
   const location = useLocation();
-  // const [posts, setPosts] = useState<Array<object>>([]); // зачем мне стейт с массивом постов?
-  const query = location.search;
+  const navigate = useNavigate();
+  const locationState = location.state as IQueryType;
+  // console.log("loc state", locationState);
+  // console.log("loc", location);
+  // searchResolver()
+
+  const [query, setQuery] = useState<IQueryType>({
+    page: locationState === null ? 1 : locationState.page,
+    author: locationState === null ? null : locationState.author,
+    genre: locationState === null ? null : locationState.genre,
+    price: locationState === null ? null : locationState.price,
+  });
+  // console.log(query);
+
   const [page, setPage] = useState<number>(
-    Number(query.split("page=")[1]) || 1
+    1 // (typeof locationState.page) === "number" ? locationState.page : 1
   );
-  // const [price, setPrice] = useState<IBooksMinMaxPrice>({minPrice: 0, maxPrice: 1000});
-  const { books, pageQty } = useAppSelector((state) => state.bookData);
-  console.log("booklist location",location)
+
+  const { books, pageQty, error } = useAppSelector((state) => state.booksData);
+  const { author, genre, price } = useAppSelector(
+    (state) => state.searchFiltersData
+  );
+
   useEffect(() => {
+    // const { resolvedPage, resolvedAuthor, resolvedGenre, resolvedPrice } = 
+    searchResolver(location.search);
     const queryTitle: IGetBookApi = {
       page,
       size: 12,
       query: {
-        author: '12',
-      //   genre: [''],
-      //   price: {
-      //     maxPrice: price.minPrice,
-      //     minPrice: price.maxPrice,
-      //   }
-      }
+        author: author,
+        genre: genre,
+        price,
+      },
     };
     dispatch(booksSearchThunk(queryTitle));
-  }, [query, page]);
+  }, [locationState, page, author, price]);
 
   return (
     <>
-      {books.length !== 0 ? (
+      {error?.type === "error" ? (
+        <NotFound />
+      ) : books.length !== 0 ? (
         <div
           className="booklist__wrapper"
           style={{
             marginLeft: "20px",
+            width: "100%",
           }}
         >
           <Pagination
@@ -60,20 +80,12 @@ const BookList = (props: BookListProps) => {
             renderItem={(item) => (
               <PaginationItem
                 component={NavLink}
-                to={`${item.page === 1 ? "?page=1" : `?page=${item.page}`}`}
+                to={`${author ? `?author=${author}` : ""}${item.page === 1 ? "?page=1" : `?page=${item.page}`}`}
+                state={{ ...query, page: item.page === 1 ? 1 : item.page }}
                 {...item}
               />
             )}
           />
-          {/* {books.length !== 0 && (
-      <BookListDiv className="booklist__items">
-        {
-          books.map((item, index) => {
-            return <BookItem key={index} book={item}/>
-          })
-        }
-      </BookListDiv>
-    )} */}
           <BookListDiv className="booklist__items">
             {books.map((item, index) => {
               return <BookItem key={index} book={item} />;

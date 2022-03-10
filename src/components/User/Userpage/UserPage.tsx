@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { SERVER_PATH } from "../../constants/notNamedYet";
-import { useAppSelector } from "../../utils/hooks/reduxHooks";
+import { SERVER_PATH } from "../../../constants/serverPath";
+import { useAppSelector } from "../../../utils/hooks/reduxHooks";
 import { Userpage } from "./UserPage.styles";
 
 function UserPage() {
@@ -9,8 +9,9 @@ function UserPage() {
     user: { name, surname, email, phoneNumber },
     avatarPath,
   } = useAppSelector((state) => state.userData);
-  const [filter, setFilter] = useState<string>("Профиль");
 
+  const [filter, setFilter] = useState<string>("Профиль");
+  
   return (
     <Userpage className="userpage">
       <div className="userpage__header">

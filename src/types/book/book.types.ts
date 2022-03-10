@@ -1,8 +1,11 @@
+import { IError } from "../error/error.types";
+
 export interface IBooksState {
   books: IBook[];
   pageQty?: number;
   filters?: IBookFilters;
   price?: IBooksMinMaxPrice;
+  error?: IError;
 }
 
 export interface IBooksMinMaxPrice {
@@ -11,9 +14,9 @@ export interface IBooksMinMaxPrice {
 }
 
 export interface IBookFilters {
-  author?: string;
-  genre?: string[];
-  price?: IBooksMinMaxPrice;
+  author?: number | string | null;
+  genre?: Array<boolean> | null;
+  price?: IBooksMinMaxPrice | null;
 }
 
 export interface IBook {
@@ -24,6 +27,8 @@ export interface IBook {
   author?: string;
   publisher?: string;
   description?: string;
+  genre?: Array<string>;
+  rating?: number;
 }
 
 export interface IBookItemProps {
@@ -41,4 +46,5 @@ export interface IBooksQuerySearch {
   books: IBook[];
   pageQty: number;
   price: IBooksMinMaxPrice;
+  error?: IError;
 }

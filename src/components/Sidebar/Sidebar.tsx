@@ -1,24 +1,23 @@
 import React, { useEffect } from "react";
-import { authorsDataThunk } from "../../redux/categoryFilter/categoryFilterThunk";
+import { categoryFilterDataThunk } from "../../redux/categoryFilter/categoryFilterThunk";
 
-import FilteredCategory from "../FilteredCategory/FilteredCategory";
+import FilteredCategory from "./FilteredCategory/FilteredCategory";
 
 import { SidebarS } from "./Sidebar.styles";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import PriceSlider from "../PriceSlider/PriceSlider";
+import PriceSlider from "./PriceSlider/PriceSlider";
 import { useDispatch } from "react-redux";
-// import { booksFilteredSearchThunk } from "../../redux/book/bookSearch/bookSearchThunk";
 import { IGetBookApi } from "../../types/book/book.types";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { booksSearchThunk } from "../../redux/book/bookSearch/bookSearchThunk";
 
-// дропдаун категории Автор Жанр
-// мультиселект на жанрах
-// динамически подгружается список
 function Sidebar() {
   const dispatch = useDispatch();
+  // const location = useLocation();
+  // const {filter} = location.state as IStateType
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [categoryFilter, setCategoryFilter] = React.useState<null | string>(
@@ -31,7 +30,7 @@ function Sidebar() {
   );
 
   useEffect(() => {
-    dispatch(authorsDataThunk());
+    dispatch(categoryFilterDataThunk());
   }, []);
 
   const handleClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
@@ -44,7 +43,7 @@ function Sidebar() {
 
   const handleSubmitClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     const data: IGetBookApi = {
-      page: 2,
+      page: 1,
       size: 12,
       query: {
         author,
@@ -53,11 +52,19 @@ function Sidebar() {
       },
     };
 
-    navigate(`?price_from=${price?.minPrice}&price_to=${price?.maxPrice}`);
+    navigate("/", {
+      state: {
+        page: 1,
+        filter: categoryFilter,
+        authorId: author || null,
+        genre: genre === null ? genre : null,
+        priceFrom: price?.minPrice,
+        priceTo: price?.maxPrice,
+      },
+      replace: true,
+    });
 
-    console.log("send button", data);
-    // dispatch(booksSearchThunk(data)); // ЭТО РАБОЧЕЕ
-    // dispatch(booksFilteredSearchThunk(data)); // ЭТО НЕ РАБОЧЕЕ
+    dispatch(booksSearchThunk(data));
   };
 
   return (

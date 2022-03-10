@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../utils/hooks/reduxHooks";
+import { useAppSelector } from "../../../../utils/hooks/reduxHooks";
 import { Box, Button, Input, TextField } from "@mui/material";
 import { Profile } from "../UserPage.styles";
 import { useDispatch } from "react-redux";
@@ -7,9 +7,9 @@ import {
   avatarUploadThunk,
   dataChangeThunk,
   passwordChangeThunk,
-} from "../../../redux/user/userData/userDataThunk";
-import { IUser } from "../../../types/user/user.types";
-import { SERVER_PATH } from "../../../constants/notNamedYet";
+} from "../../../../redux/user/userData/userDataThunk";
+import { IUser } from "../../../../types/user/user.types";
+import { SERVER_PATH } from "../../../../constants/serverPath";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ function UserProfile() {
     surname: "",
     email: "",
     phoneNumber: "",
+    dob: '',
   });
   const [passwordData, setPasswordData] = useState({
     passwordFirst: "",
@@ -30,10 +31,10 @@ function UserProfile() {
     password: "",
   });
   const [selectedFile, setSelectedFile] = useState<File>();
-  // const [isFilePicked, setIsFilePicked] = useState<boolean>(false);
+  const [touched, setTouched] = useState<boolean>(false);
 
   useEffect(() => {
-    setData({ name, surname, email, phoneNumber });
+    setData({ name, surname, email, phoneNumber, dob });
   }, [isCompleted]);
 
   const handleContactsInputChange: React.ChangeEventHandler<
@@ -75,6 +76,10 @@ function UserProfile() {
     dispatch(dataChangeThunk(data));
   };
 
+  const handleTouch = () => {
+    setTouched(!touched)
+  }
+
   if (!isCompleted) {
     return null;
   }
@@ -105,8 +110,13 @@ function UserProfile() {
             id="dob"
             className="contacts__item"
             fullWidth
-            value={dob}
+            onFocus={handleTouch}
+            onBlur={handleTouch}
+            value={data.dob || ""}
             onChange={handleContactsInputChange}
+            helperText={touched && "ДД.ММ.ГГГГ"}
+            autoComplete="off"
+
           />
           <TextField
             label="Номер телефона"

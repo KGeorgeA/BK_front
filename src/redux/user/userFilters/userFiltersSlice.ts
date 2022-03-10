@@ -3,12 +3,9 @@ import { IBookFilters } from "../../../types/book/book.types";
 import { searchFiltersAction } from "./userFiltersAction";
 
 export const initialState: IBookFilters = {
-  author: "",
-  genre: [],
-  price: {
-    minPrice: 0,
-    maxPrice: 0,
-  },
+  author: null,
+  genre: null,
+  price: null,
 };
 
 export const searchFiltersSlice = createSlice({

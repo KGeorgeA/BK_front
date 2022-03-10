@@ -12,10 +12,10 @@ import {
   HeaderLogo,
 } from "./Header.styles";
 
-import { useAppSelector } from "../../utils/hooks/reduxHooks";
+import { useAppSelector } from "../../../utils/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { signout } from "../../redux/user/userAuth/userAuthSlice";
-import { clearData } from "../../redux/user/userData/userDataSlice";
+import { signout } from "../../../redux/user/userAuth/userAuthSlice";
+import { clearData } from "../../../redux/user/userData/userDataSlice";
 
 function Header() {
   const { isSignIn } = useAppSelector((state) => state.userAuth);
@@ -32,12 +32,11 @@ function Header() {
     <HeaderS className="header">
       <HeaderContainer className="header-container ">
         <HeaderMain className="header__main">
-          <Link to="/" className="link">
+          <Link to="/?page=1" state={{page: 1,}} className="link">
             <HeaderLogo className="header__logo">
               <p className="header__text">Bookstore</p>
             </HeaderLogo>
           </Link>
-          <div>Продам гараж</div>
           <div className="header__menu">
             <div className="header__icons">
               {isSignIn ? (

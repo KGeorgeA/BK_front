@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { STYLE_VARIABLES } from "../../constants/styleConstants";
+import { STYLE_VARIABLES } from "../../../constants/styleConstants";
 export const Userpage = styled.div`
   .userpage__header {
     margin: 0 0 15px 0;
