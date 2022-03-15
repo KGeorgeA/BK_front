@@ -4,13 +4,11 @@ import {
   signinThunk,
   signupThunk,
 } from "../../../redux/user/userAuth/userAuthThunk";
-import { Location, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Button, Grid, TextField, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { AuthDiv, AuthHeader } from "./Auth.styles";
-import { useAppSelector } from "../../../utils/hooks/reduxHooks";
-import { getUserDataThunk } from "../../../redux/user/userData/userDataThunk";
 
 function Auth() {
   const [data, setData] = useState({
@@ -19,20 +17,9 @@ function Auth() {
     phoneNumber: "",
     password: "",
   });
-  const [authUi, setAuthUi] = useState({ isLogin: true });
-  // const [validationErrorMessage, setValidationErrorMessage] = useState("");
-  // const { isSignIn } = useAppSelector((state) => state.userAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // const location: any = useLocation();
-
-  // const fromPage = location.state?.from?.pathname; // ???
-
-  // useEffect(() => {
-  //   setValidationErrorMessage(store.getState().userAuth.message.value);
-  //   console.log(validationErrorMessage);
-  // }, []);
+  const [authUi, setAuthUi] = useState({ isLogin: true });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
     ev.preventDefault();
@@ -61,7 +48,6 @@ function Auth() {
       className="wrapper"
       sx={{
         width: "100%",
-        // height: "100vh",
         display: "flex",
         alignItems: "center",
       }}
@@ -70,7 +56,6 @@ function Auth() {
         <AuthHeader className="login__header">
           <AuthDiv>Bookstore Name</AuthDiv>
           <AuthDiv>{authUi.isLogin ? "Вход" : "Регистрация"}</AuthDiv>
-          <AuthDiv>НАПОМИНАНИЕ! Шрифт ни о чём</AuthDiv>
         </AuthHeader>
         <Box
           className="login__form"
@@ -96,14 +81,6 @@ function Auth() {
                 autoComplete="off"
                 autoFocus
                 onChange={handleInputChange}
-                // error={
-                //   validationErrorMessage.elementId === "name" ? true : false
-                // }
-                // helperText={
-                //   validationErrorMessage.elementId === "name"
-                //     ? validationErrorMessage.message
-                //     : ""
-                // }
               />
               <TextField
                 className="form__input"
@@ -115,16 +92,6 @@ function Auth() {
                 autoComplete="off"
                 autoFocus
                 onChange={handleInputChange}
-                // error={
-                //   validationErrorMessage.elementId === "phoneNumber"
-                //     ? true
-                //     : false
-                // }
-                // helperText={
-                //   validationErrorMessage.elementId === "phoneNumber"
-                //     ? validationErrorMessage.message
-                //     : ""
-                // }
               />
             </>
           )}
@@ -138,12 +105,6 @@ function Auth() {
             autoComplete="off"
             autoFocus
             onChange={handleInputChange}
-            // error={validationErrorMessage.elementId === "email" ? true : false}
-            // helperText={
-            //   validationErrorMessage.elementId === "email"
-            //     ? validationErrorMessage.message
-            //     : ""
-            // }
           />
           <TextField
             className="form__input"
@@ -155,14 +116,6 @@ function Auth() {
             id="password"
             autoComplete="off"
             onChange={handleInputChange}
-            // error={
-            //   validationErrorMessage.elementId === "password" ? true : false
-            // }
-            // helperText={
-            //   validationErrorMessage.elementId === "password"
-            //     ? validationErrorMessage.message
-            //     : ""
-            // }
           />
           <Button
             className="form__button"

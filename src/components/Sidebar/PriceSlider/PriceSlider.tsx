@@ -10,26 +10,31 @@ import { useAppSelector } from "../../../utils/hooks/reduxHooks";
 const PriceSlider = () => {
   const dispatch = useDispatch();
   const { price } = useAppSelector((state) => state.booksData);
-  const { author, genre } = useAppSelector((state) => state.searchFiltersData);
-  const [value, setValue] = React.useState<Array<number>>([0, 1000]);
-
-  useEffect(() => {
-    const minPrice = price?.minPrice || 0;
-    const maxPrice = price?.maxPrice || 1000;
-    setValue([minPrice, maxPrice]);
-  }, []);
+  const { author, genre, priceFilter } = useAppSelector((state) => state.searchFiltersData);
+  const [range, setRange] = React.useState<Array<number>>([
+    0,
+    1000,
+  ])
+  const [value, setValue] = React.useState<Array<number>>([
+    0,
+    1000,
+  ]);
 
   useEffect(() => {
     const data: IBookFilters = {
       author,
       genre,
-      price: {
-        minPrice: value[0],
-        maxPrice: value[1],
+      priceFilter: {
+        minPrice: range[0],
+        maxPrice: range[1],
       },
     };
     dispatch(filteredSearch(data));
-  }, [value, author, genre]);
+  }, [range, author, genre]);
+
+  const handleRange = (event: Event | React.SyntheticEvent<Element, Event>, value: number | number[]) => {
+    setRange(value as number[])
+  }
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -67,7 +72,7 @@ const PriceSlider = () => {
     <div>
       <div
         style={
-          /* Switch to style component */ {
+          {
             width: "100%",
             display: "flex",
             justifyContent: "space-between",
@@ -94,6 +99,7 @@ const PriceSlider = () => {
         max={1000}
         value={value}
         onChange={handleChange}
+        onChangeCommitted={handleRange}
         valueLabelDisplay="auto"
       />
     </div>

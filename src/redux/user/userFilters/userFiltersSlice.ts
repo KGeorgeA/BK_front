@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IBookFilters } from "../../../types/book/book.types";
-import { searchFiltersAction } from "./userFiltersAction";
+import { clearSearchFiltersAction, searchFiltersAction } from "./userFiltersAction";
 
 export const initialState: IBookFilters = {
   author: null,
   genre: null,
-  price: null,
+  priceFilter: {
+    minPrice: 0,
+    maxPrice: 1000
+  },
 };
 
 export const searchFiltersSlice = createSlice({
@@ -13,8 +16,9 @@ export const searchFiltersSlice = createSlice({
   initialState,
   reducers: {
     filteredSearch: searchFiltersAction,
+    clearFilters: clearSearchFiltersAction,
   },
 });
 
-export const { filteredSearch } = searchFiltersSlice.actions;
+export const { filteredSearch, clearFilters } = searchFiltersSlice.actions;
 export default searchFiltersSlice.reducer;

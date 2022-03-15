@@ -10,7 +10,6 @@ import {
 } from "../../../types/user/user.types";
 import { signin, signup, error, tokenAuth } from "./userAuthSlice";
 
-// добавить типизацию
 export const signinThunk = createAsyncThunk<void, IUserSigninDataApi>(
   "userAuth/signin",
   async (data, { dispatch }) => {

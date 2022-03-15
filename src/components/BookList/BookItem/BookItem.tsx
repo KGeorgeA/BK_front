@@ -12,20 +12,17 @@ const BookItem = (props: IBookItemProps) => {
   return (
     <BookItemDiv className="book">
       <BookImgDiv>
-        <BookImg
-          src={
-            props.book.picture
-              ? `${SERVER_PATH}${props.book.picture}`
-              : "/images/NOT_FOUND_IMAGE.jpg"
-          }
-          alt={props.book.name}
-        />
-      </BookImgDiv>
-      {/* <div className="book__link-container link-container">
-        <Link to="/" className="book__author-link link">
-          {props.book.author}
+        <Link to={`/book/${props.book.id}`}>
+          <BookImg
+            src={
+              props.book.picture
+                ? `${SERVER_PATH}${props.book.picture}`
+                : "/images/NOT_FOUND_IMAGE.jpg"
+            }
+            alt={props.book.name}
+          />
         </Link>
-      </div> */}
+      </BookImgDiv>
       <div className="book__link-container link-container">
         <Link to={`/book/${props.book.id}`} className="book__title-link link">
           {props.book.name}

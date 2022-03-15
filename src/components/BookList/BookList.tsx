@@ -5,56 +5,53 @@ import BookItem from "./BookItem/BookItem";
 import BookListDiv from "./BookList.styles";
 import NotFound from "../NotFound/NotFound";
 
-import { Link as NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link as NavLink,
+  useLocation,
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { IBookFilters, IGetBookApi } from "../../types/book/book.types";
+import {
+  IGetBookApi,
+  IQueryType,
+} from "../../types/book/book.types";
 import { booksSearchThunk } from "../../redux/book/bookSearch/bookSearchThunk";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
-import { IQueryType, /* ISearchQueryType, */ searchResolver } from "../../utils/helpers/searchResolver";
-
-
+import { getParsedUrl } from "../../utils/helpers/queryParser";
 
 const BookList = () => {
   const dispatch = useDispatch();
-
   const location = useLocation();
-  const navigate = useNavigate();
-  const locationState = location.state as IQueryType;
-  // console.log("loc state", locationState);
-  // console.log("loc", location);
-  // searchResolver()
-
-  const [query, setQuery] = useState<IQueryType>({
-    page: locationState === null ? 1 : locationState.page,
-    author: locationState === null ? null : locationState.author,
-    genre: locationState === null ? null : locationState.genre,
-    price: locationState === null ? null : locationState.price,
-  });
-  // console.log(query);
-
-  const [page, setPage] = useState<number>(
-    1 // (typeof locationState.page) === "number" ? locationState.page : 1
-  );
 
   const { books, pageQty, error } = useAppSelector((state) => state.booksData);
-  const { author, genre, price } = useAppSelector(
+  const { author, genre, priceFilter } = useAppSelector(
     (state) => state.searchFiltersData
   );
 
+  const [query, setQuery] = useState<IQueryType>({
+    page: 1,
+    author: null,
+    genre: null,
+    price: {
+      minPrice: 0,
+      maxPrice: 1000,
+    },
+  });
+
   useEffect(() => {
-    // const { resolvedPage, resolvedAuthor, resolvedGenre, resolvedPrice } = 
-    searchResolver(location.search);
     const queryTitle: IGetBookApi = {
-      page,
+      page: query.page,
       size: 12,
       query: {
         author: author,
         genre: genre,
-        price,
+        priceFilter: {
+          minPrice: priceFilter.minPrice,
+          maxPrice: priceFilter.maxPrice,
+        },
       },
     };
     dispatch(booksSearchThunk(queryTitle));
-  }, [locationState, page, author, price]);
+  }, [author, priceFilter, genre, location.search, dispatch, query.page]);
 
   return (
     <>
@@ -72,16 +69,18 @@ const BookList = () => {
             className="booklist__pagination"
             count={pageQty}
             onChange={(_, num) => {
-              setPage(num);
+              setQuery({ ...query, page: num });
             }}
             size="large"
             boundaryCount={2}
-            page={page}
+            page={query.page}
             renderItem={(item) => (
               <PaginationItem
                 component={NavLink}
-                to={`${author ? `?author=${author}` : ""}${item.page === 1 ? "?page=1" : `?page=${item.page}`}`}
-                state={{ ...query, page: item.page === 1 ? 1 : item.page }}
+                to={`${getParsedUrl({ author, genre, priceFilter })}&page=${
+                  item.page
+                }`}
+                state={{ ...query, page: item.page }}
                 {...item}
               />
             )}

@@ -9,4 +9,5 @@ export const BookImg = styled.img`
   max-height: 176px;
   width: 100%;
   height: 100%;
+  cursor: pointer;
 `;

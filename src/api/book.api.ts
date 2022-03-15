@@ -1,4 +1,3 @@
-//import types
 import { IBook, IGetBookApi } from "../types/book/book.types";
 import api from "./axios";
 

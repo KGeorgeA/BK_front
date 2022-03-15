@@ -7,7 +7,6 @@ import {
 } from "../../../types/user/user.types";
 import { initialState } from "./userAuthSlice";
 
-// user auth actions
 export const signinAction: CaseReducer<IUserState, PayloadAction<IUserAuth>> = (
   state,
   action

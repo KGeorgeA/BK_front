@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useParams } from "react-router-dom";
 
 import PrivateRoute, { PrivateRouteProps } from "../hoc/PrivateRoute";
 import Layout from "../Layout/Layout";
@@ -17,19 +17,25 @@ import UserOrders from "../User/Userpage/Orders/UserOrders";
 import UserWishlist from "../User/Userpage/Wishlist/UserWishlist";
 import { getUserDataThunk } from "../../redux/user/userData/userDataThunk";
 import SingleBook from "../BookList/SingleBook/SingleBook";
+import { filteredSearch } from "../../redux/user/userFilters/userFiltersSlice";
+import { parseQuery } from "../../utils/helpers/queryParser";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const { isSignIn, isCompleted } = useAppSelector((state) => state.userAuth);
   const state = useAppSelector((state) => state.userData);
-  // const location = useLocation();
-  // console.log("location", location);
+  const location = useLocation();
+
+  useEffect(() => {
+    const { author, genre, price } = parseQuery(location.search);
+    location.search && dispatch(filteredSearch({author: author ?? null, genre: genre ?? null, priceFilter: price}))
+  }, [location.search, dispatch])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     dispatch(tokenAuthThunk(token));
     dispatch(getUserDataThunk(state));
-  }, [isSignIn]);
+  }, [isSignIn, dispatch, state]);
 
   if (!isCompleted) {
     return null;

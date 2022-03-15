@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ICategoryFilter } from "../../types/categoryFilter/categoryFilter.types";
 import { getCategoryFilterAction } from "./categoryFilterActions";
-//import actions
 
 export const initialState: ICategoryFilter = {
   authors: [],

@@ -38,6 +38,7 @@ export const GlobalStyles = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
+  
   body {
     line-height: 1;
     font: 1rem Suisse Intl,Helvetica,Arial,sans-serif;

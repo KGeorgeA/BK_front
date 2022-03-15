@@ -17,7 +17,7 @@ function UserProfile() {
   const { name, surname, email, phoneNumber, dob } = useAppSelector(
     (state) => state.userData.user
   );
-  // const { code, type, value } = useAppSelector((state) => state.userData.error);
+  console.log(dob)
   const [data, setData] = useState<IUser>({
     name: "",
     surname: "",

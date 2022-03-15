@@ -4,7 +4,6 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel,
   FormGroup,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -22,18 +21,22 @@ const FilteredCategory = (props: { filter: string }) => {
     null
   );
   const [checkBoxes, setCheckBoxes] = useState<IBookFilters["genre"]>(
-    Array<boolean>(genres.length).fill(false)
-  );
-  const { price } = useAppSelector((state) => state.searchFiltersData);
+[]  );
+  const { priceFilter, author, genre } = useAppSelector((state) => state.searchFiltersData);
+
+  useEffect(() => {
+    setRadioValue(author);
+    setCheckBoxes(genre);
+  }, [author, genre])
 
   useEffect(() => {
     const data: IBookFilters = {
       author: radioValue,
       genre: checkBoxes,
-      price,
+      priceFilter,
     };
     dispatch(filteredSearch(data));
-  }, [radioValue, checkBoxes]);
+  }, [radioValue, checkBoxes, priceFilter, dispatch]);
 
   const handleRadioGroupChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(ev.target.value);
@@ -43,7 +46,10 @@ const FilteredCategory = (props: { filter: string }) => {
     ev: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newCheckBoxes = checkBoxes!.slice();
-    newCheckBoxes![Number(ev.target.value) - 1] = !!ev.target.checked;
+    ev.target.checked
+      ? (newCheckBoxes[Number(ev.target.id) - 1] = ev.target.value)
+      : (newCheckBoxes[Number(ev.target.id) - 1] = "");
+
     setCheckBoxes(newCheckBoxes);
   };
 
@@ -65,10 +71,9 @@ const FilteredCategory = (props: { filter: string }) => {
           {genres.map((item) => (
             <FormControlLabel
               key={item.id}
-              value={item.id}
-              control={<Checkbox />}
+              value={item.value}
+              control={<Checkbox id={`${item.id}`} />}
               label={item.name}
-              checked={checkBoxes![Number(item.id) - 1]}
             />
           ))}
         </FormGroup>

@@ -1,6 +1,5 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import { ICategoryFilter } from "../../types/categoryFilter/categoryFilter.types";
-import { initialState } from "./categoryFilterSlice";
 
 export const getCategoryFilterAction: CaseReducer<
   ICategoryFilter,

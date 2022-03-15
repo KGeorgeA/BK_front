@@ -9,15 +9,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PriceSlider from "./PriceSlider/PriceSlider";
 import { useDispatch } from "react-redux";
-import { IGetBookApi } from "../../types/book/book.types";
+import { IBookFilters } from "../../types/book/book.types";
 import { useAppSelector } from "../../utils/hooks/reduxHooks";
-import { useLocation, useNavigate } from "react-router-dom";
-import { booksSearchThunk } from "../../redux/book/bookSearch/bookSearchThunk";
+import { useNavigate } from "react-router-dom";
+import { getParsedUrl } from "../../utils/helpers/queryParser";
 
 function Sidebar() {
   const dispatch = useDispatch();
-  // const location = useLocation();
-  // const {filter} = location.state as IStateType
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [categoryFilter, setCategoryFilter] = React.useState<null | string>(
@@ -25,13 +23,23 @@ function Sidebar() {
   );
   const open = Boolean(anchorEl);
 
-  const { author, genre, price } = useAppSelector(
+  const { author, genre, priceFilter } = useAppSelector(
     (state) => state.searchFiltersData
   );
 
   useEffect(() => {
     dispatch(categoryFilterDataThunk());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const urlParams: IBookFilters = {
+      author,
+      genre,
+      priceFilter,
+    };
+
+    navigate(getParsedUrl(urlParams), { replace: true });
+  }, [author, genre, priceFilter, navigate]);
 
   const handleClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(ev.currentTarget);
@@ -39,32 +47,6 @@ function Sidebar() {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleSubmitClick: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const data: IGetBookApi = {
-      page: 1,
-      size: 12,
-      query: {
-        author,
-        genre,
-        price,
-      },
-    };
-
-    navigate("/", {
-      state: {
-        page: 1,
-        filter: categoryFilter,
-        authorId: author || null,
-        genre: genre === null ? genre : null,
-        priceFrom: price?.minPrice,
-        priceTo: price?.maxPrice,
-      },
-      replace: true,
-    });
-
-    dispatch(booksSearchThunk(data));
   };
 
   return (
@@ -82,9 +64,13 @@ function Sidebar() {
         id="sidebar__menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose();
+          setCategoryFilter(null);
+        }}
       >
         <MenuItem
+          sx={{ width: "256px", justifyContent: "center" }}
           onClick={() => {
             handleClose();
             setCategoryFilter("author");
@@ -93,6 +79,7 @@ function Sidebar() {
           Автор
         </MenuItem>
         <MenuItem
+          sx={{ width: "256px", justifyContent: "center" }}
           onClick={() => {
             handleClose();
             setCategoryFilter("genre");
@@ -103,9 +90,6 @@ function Sidebar() {
       </Menu>
       {categoryFilter && <FilteredCategory filter={categoryFilter} />}
       <PriceSlider />
-      <Button fullWidth={true} onClick={handleSubmitClick}>
-        Send
-      </Button>
     </SidebarS>
   );
 }

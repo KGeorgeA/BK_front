@@ -6,6 +6,7 @@ export interface IBooksState {
   filters?: IBookFilters;
   price?: IBooksMinMaxPrice;
   error?: IError;
+  page?: number;
 }
 
 export interface IBooksMinMaxPrice {
@@ -14,9 +15,9 @@ export interface IBooksMinMaxPrice {
 }
 
 export interface IBookFilters {
-  author?: number | string | null;
-  genre?: Array<boolean> | null;
-  price?: IBooksMinMaxPrice | null;
+  author: number | string | null;
+  genre: string[] | null;
+  priceFilter: IBooksMinMaxPrice;
 }
 
 export interface IBook {
@@ -27,7 +28,7 @@ export interface IBook {
   author?: string;
   publisher?: string;
   description?: string;
-  genre?: Array<string>;
+  genre?: string[];
   rating?: number;
 }
 
@@ -47,4 +48,13 @@ export interface IBooksQuerySearch {
   pageQty: number;
   price: IBooksMinMaxPrice;
   error?: IError;
+  page?: number;
+}
+
+
+export interface IQueryType {
+  page: number;
+  author?: IBookFilters["author"];
+  genre?: IBookFilters["genre"];
+  price: IBookFilters["priceFilter"];
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { SERVER_PATH } from "../../../constants/serverPath";
 import { useAppSelector } from "../../../utils/hooks/reduxHooks";
